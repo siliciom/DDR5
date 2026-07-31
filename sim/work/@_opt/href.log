@@ -1,0 +1,3 @@
+BEGIN 3:ddr5_interface:fast__1:work
+    ck_t :  1:ddr5_agent_pkg:fast:work
+END 

@@ -1,0 +1,303 @@
+m255
+K4
+z2
+!s12c _opt
+Z0 !s99 nomlopt
+!s11f vlog 2025.2_1 2025.06, Jun 25 2025
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z1 dC:/DDR5/ddr_5/sim
+T_opt
+!i145 1
+!s11d ddr5_test_pkg C:/DDR5/ddr_5/sim/work 1 ddr5_interface 1 C:/DDR5/ddr_5/sim/work 
+!s11d ddr5_agent_pkg C:/DDR5/ddr_5/sim/work 1 ddr5_interface 1 C:/DDR5/ddr_5/sim/work 
+!s11d uvm_pkg C:/questasim64_2025.2_1/uvm-1.1d 1 ddr5_interface 1 C:/DDR5/ddr_5/sim/work 
+!i144 0
+!s110 1785476205
+VQ_k]^hW]K>72UKPIlM1[h2
+04 8 4 work ddr5_top fast 0
+=1-8c04baffaa62-6a6c346b-f1-5ec
+R0
+!s12f OEM100
+!s12b OEM100
+!s124 OEM100
+!s135 nogc
+o-quiet -auto_acc_if_foreign -work work -debugdb +acc
+tCvgOpt 0 defaultOptions 1107589284
+n@_opt
+OL;O;2025.2_1;82
+Xddr5_agent_pkg
+!i114 1
+Z2 2../sequences/ddr5_seq_pkg.sv|../agents/ddr5_agent_pkg.sv|../env/ddr5_env_pkg.sv|../tests/ddr5_test_pkg.sv|../config/ddr5_pkg.sv|../top/ddr5_interface.sv|../top/ddr5_top.sv
+Z3 !s115 ddr5_interface
+Z4 DXx6 sv_std 3 std 0 22 @5XbY]_OacJl=`ToSm<M^0
+Z5 DXx6 mtiUvm 7 uvm_pkg 0 22 lf66<mJFf<zP4<@_c18gm0
+Z6 DXx4 work 12 ddr5_seq_pkg 0 22 5W6zJh524ZlmDOca8]EUl0
+Z7 !s110 1785476202
+!i10b 1
+!s100 cg:C2gI9`HVoOgQ[NicM>0
+I2D:6j352d`I=^CUzZYddd1
+S1
+R1
+w1785476052
+8../agents/ddr5_agent_pkg.sv
+F../agents/ddr5_agent_pkg.sv
+Z8 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/uvm_macros.svh
+Z9 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_version_defines.svh
+Z10 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_message_defines.svh
+Z11 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_phase_defines.svh
+Z12 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_object_defines.svh
+Z13 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_printer_defines.svh
+Z14 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_tlm_defines.svh
+Z15 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/tlm1/uvm_tlm_imps.svh
+Z16 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_sequence_defines.svh
+Z17 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_callback_defines.svh
+Z18 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_reg_defines.svh
+Z19 FC:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_deprecated_defines.svh
+F../agents/ddr5_sequencer.sv
+F../agents/ddr5_driver.sv
+F../agents/ddr5_monitor.sv
+F../agents/ddr5_agent.sv
+!i122 0
+Z20 L0 1 0
+V2D:6j352d`I=^CUzZYddd1
+Z21 OL;L;2025.2_1;82
+r1
+!s85 0
+31
+Z22 !s108 1785476201.000000
+Z23 !s107 ../tests/ddr5_test.sv|../env/ddr5_env.sv|../env/ddr5_scoreboard.sv|../agents/ddr5_agent.sv|../agents/ddr5_monitor.sv|../agents/ddr5_driver.sv|../agents/ddr5_sequencer.sv|../sequences/ddr5_seq.sv|../sequences/ddr5_seq_item.sv|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_deprecated_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_reg_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_callback_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_sequence_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/tlm1/uvm_tlm_imps.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_tlm_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_printer_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_object_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_phase_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_message_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_version_defines.svh|C:/questasim64_2025.2_1/uvm-1.1d/../verilog_src/uvm-1.1d/src/uvm_macros.svh|../top/ddr5_top.sv|../top/ddr5_interface.sv|../config/ddr5_pkg.sv|../tests/ddr5_test_pkg.sv|../env/ddr5_env_pkg.sv|../agents/ddr5_agent_pkg.sv|../sequences/ddr5_seq_pkg.sv|
+Z24 !s90 -work|work|-sv|../sequences/ddr5_seq_pkg.sv|../agents/ddr5_agent_pkg.sv|../env/ddr5_env_pkg.sv|../tests/ddr5_test_pkg.sv|../config/ddr5_pkg.sv|../top/ddr5_interface.sv|../top/ddr5_top.sv|-l|./results/ddr5_test/comp.log|
+!i113 0
+Z25 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z26 tCvgOpt 0 defaultOptions 1085333752
+Xddr5_env_pkg
+!i114 1
+R2
+R4
+R5
+R6
+Z27 DXx4 work 14 ddr5_agent_pkg 0 22 2D:6j352d`I=^CUzZYddd1
+R7
+!i10b 1
+!s100 =5^F_;DgB;C]3=RFmQHU70
+IdVToba7d_k@iN3zImY0L:2
+S1
+R1
+w1785474552
+8../env/ddr5_env_pkg.sv
+F../env/ddr5_env_pkg.sv
+R8
+R9
+R10
+R11
+R12
+R13
+R14
+R15
+R16
+R17
+R18
+R19
+F../env/ddr5_scoreboard.sv
+F../env/ddr5_env.sv
+!i122 0
+R20
+VdVToba7d_k@iN3zImY0L:2
+R21
+r1
+!s85 0
+31
+R22
+R23
+R24
+!i113 0
+R25
+R26
+Yddr5_interface
+R2
+R4
+R7
+!i10b 1
+!s100 C@MZX6zKnQnG]3P8VBi3E0
+I9o^Z4P2^Whd6Mf:@Gg[iN2
+S1
+R1
+Z28 w1785475903
+F../top/ddr5_interface.sv
+Z29 F../top/ddr5_top.sv
+!i122 0
+R20
+Z30 VDg1SIo80bB@j0V0VzS_@n1
+R21
+r1
+!s85 0
+31
+R22
+R23
+R24
+!i113 0
+R25
+R26
+Xddr5_pkg
+R2
+R4
+R5
+R6
+R27
+Z31 DXx4 work 12 ddr5_env_pkg 0 22 dVToba7d_k@iN3zImY0L:2
+Z32 DXx4 work 13 ddr5_test_pkg 0 22 oKf`8ajmTL5763z>f5<U<1
+R7
+!i10b 1
+!s100 eo__EBOQjn8ZBhaEz660V2
+If[_`]e2Q^Mo`Nac<j6C??0
+S1
+R1
+w1785474312
+8../config/ddr5_pkg.sv
+F../config/ddr5_pkg.sv
+R8
+R9
+R10
+R11
+R12
+R13
+R14
+R15
+R16
+R17
+R18
+R19
+!i122 0
+R20
+Vf[_`]e2Q^Mo`Nac<j6C??0
+R21
+r1
+!s85 0
+31
+R22
+R23
+R24
+!i113 0
+R25
+R26
+Xddr5_seq_pkg
+!i114 1
+R2
+R4
+R5
+R7
+!i10b 1
+!s100 k62N0knZP6:`Pb>CogWmE0
+I5W6zJh524ZlmDOca8]EUl0
+S1
+R1
+w1785475600
+8../sequences/ddr5_seq_pkg.sv
+F../sequences/ddr5_seq_pkg.sv
+R8
+R9
+R10
+R11
+R12
+R13
+R14
+R15
+R16
+R17
+R18
+R19
+F../sequences/ddr5_seq_item.sv
+F../sequences/ddr5_seq.sv
+!i122 0
+R20
+V5W6zJh524ZlmDOca8]EUl0
+R21
+r1
+!s85 0
+31
+R22
+R23
+R24
+!i113 0
+R25
+R26
+Xddr5_test_pkg
+!i114 1
+R2
+R3
+R4
+R5
+R6
+R27
+R31
+R7
+!i10b 1
+!s100 Jo@kd3?bO08[6K>=>l`e_2
+IoKf`8ajmTL5763z>f5<U<1
+S1
+R1
+w1785475061
+8../tests/ddr5_test_pkg.sv
+F../tests/ddr5_test_pkg.sv
+R8
+R9
+R10
+R11
+R12
+R13
+R14
+R15
+R16
+R17
+R18
+R19
+F../tests/ddr5_test.sv
+!i122 0
+R20
+VoKf`8ajmTL5763z>f5<U<1
+R21
+r1
+!s85 0
+31
+R22
+R23
+R24
+!i113 0
+R25
+R26
+vddr5_top
+R2
+R4
+R5
+R6
+R27
+R31
+R32
+DXx4 work 8 ddr5_pkg 0 22 f[_`]e2Q^Mo`Nac<j6C??0
+R7
+!i10b 1
+!s100 ]729eZoQOAK6aIk<AH9On1
+IGenDQLB6I6Z0DA6XGHmG:3
+S1
+R1
+R28
+8../top/ddr5_top.sv
+R29
+!i122 0
+L0 5 23
+R30
+R21
+r1
+!s85 0
+31
+R22
+R23
+R24
+!i113 0
+R25
+R26
