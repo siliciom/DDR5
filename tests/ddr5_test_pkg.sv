@@ -8,6 +8,7 @@ package ddr5_test_pkg;
   
 
    `include "ddr5_test.sv"
+   `include "ddr5_test_x8.sv"
    
 
 endpackage

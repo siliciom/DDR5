@@ -13,14 +13,18 @@ if {$testname == "ddr5_test"} {
  # set comp_opts "+define+INJECTING_TIMING_ERROR"
  # set run_opts "+ERR_TO_WARN"
 
-}
+} elseif {$testname == "ddr5_test_x8"} {
 
+    set comp_opts "+define+DDR_X8"
+
+}
 # ==========================================
 # Valid Tests
 # ==========================================
 transcript quietly
 set valid_tests {
     ddr5_test
+    ddr5_test_x8
     }
 # ==========================================
 # Check whether test is valid
@@ -92,7 +96,8 @@ vmap work work
         ../config/ddr5_pkg.sv \
         ../top/ddr5_interface.sv \
         ../top/ddr5_top.sv \
--l $complog
+        $comp_opts \
+        -l $complog
 } comp_result]
 
 if {$comp_status != 0} {

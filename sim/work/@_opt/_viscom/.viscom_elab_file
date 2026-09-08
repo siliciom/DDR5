@@ -1,1 +1,0 @@
-C:/questasim64_2025.2_1/win64/VisualizerRls/bin/viscom.exe -nolock -quiet -jmem_size 86362896 work.ddr5_top -quiet -auto_acc_if_foreign -work work -debugdb +acc -allow_unnamed -o _opt -id 1-8c04baffaa62-6a6c346b-f1-5ec +__betafsm

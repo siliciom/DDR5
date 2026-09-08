@@ -43,7 +43,7 @@ endfunction
 
 //        start sequence on sequencer
        seqh.start(envh.agt.seqh);
-       #20;
+       #70000;
     
        phase.drop_objection(this);
   endtask

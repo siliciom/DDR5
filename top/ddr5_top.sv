@@ -6,11 +6,13 @@ module ddr5_top;
 
   import uvm_pkg::*;
   import ddr5_pkg::*;
+
+  localparam realtime tCK = (1000.0 / `CK_FREQ_MHZ) * 1ns;
   
-  bit ck_t=0;
-  bit ck_c=0;
-  always #5 ck_t = ~ck_t;
-  always #5 ck_c = ~ck_c;
+  bit ck_t;
+  bit ck_c=1;
+  always #(tCK/2.0) ck_t = ~ck_t;
+  always #(tCK/2.0) ck_c = ~ck_c;
   
   ddr5_interface vif(ck_t,ck_c);
   
