@@ -1,14 +1,14 @@
 typedef enum {NOP,DES,ACTIVATE,WRITE,WRITE_AP,READ,READ_AP,PRE,PRE_ALL,PRE_SB,MRW,MRR,PD_E,PD_X} rand_cmd;
 // mr0
 typedef enum bit [1:0] {
-
+ 
     BL16     = 2'b00,
     BC8_OTF  = 2'b01,
     BL32     = 2'b10,
     BL32_OTF = 2'b11
-
+ 
 } burst_length_e;
-
+ 
 typedef enum bit [4:0]{
 	RL22  = 5'b00000,
         RL24  = 5'b00001,
@@ -21,17 +21,16 @@ typedef enum bit [4:0]{
         RL40  = 5'b01001,
         RL44  = 5'b01011,
         RL48  = 5'b01101
-       
        	} read_latency;
 //mr5
-
-
+ 
+ 
 typedef enum bit {
   DM_ENABLE  = 1'b1,
   DM_DISABLE = 1'b0
-
+ 
 	}dm_en;
-
+ 
 //mr6
 typedef enum bit[3:0]{
 	WR48 = 4'b0000,
@@ -43,9 +42,9 @@ typedef enum bit[3:0]{
      	WR84 = 4'b0110,  
       	WR90 = 4'b0111,  
       	WR96 = 4'b1000
-
+ 
 	} write_recovery;
-
+ 
 typedef enum bit [3:0]{
 	TRTP12 = 4'b0000,
         TRTP14 = 4'b0001,
@@ -56,7 +55,7 @@ typedef enum bit [3:0]{
 	TRTP21 = 4'b0110,
 	TRTP23 = 4'b0111,
 	TRTP24 = 4'b1000
-
+ 
 } mr6_trp;
 // mr13
 typedef enum bit [3:0]{
@@ -82,21 +81,20 @@ typedef enum bit [1:0]{
         WR_PRE_2TCK   = 2'b01,
         WR_PRE_3TCK   = 2'b10,
         WR_PRE_4TCK   = 2'b11
-
+ 
 	}write_preamble;
 typedef enum bit   {
 	RD_PSTBLE_0_5TCK = 1'b0,
 	RD_PSTBLE_1_5TCK = 1'b1
 	} read_postamble;
-
+ 
 typedef enum bit   {
 	WR_PSTBLE_0_5TCK = 1'b0,
 	WR_PSTBLE_1_5TCK = 1'b1
 	} write_postamble;
-
+ 
 class ddr5_seq_item extends uvm_sequence_item;
   `uvm_object_utils(ddr5_seq_item)
-  
   rand    burst_length_e bl;
   rand    read_latency rl;
   rand    dm_en dm_cfg;
@@ -108,7 +106,7 @@ class ddr5_seq_item extends uvm_sequence_item;
   rand    write_preamble wr_preamble;
   rand    read_postamble rd_postamble;
   rand    write_postamble wr_postamble;
-
+ 
   rand bit cs_n;  //chip select
   rand bit reset_n;
   rand rand_cmd cmd;
@@ -127,12 +125,10 @@ class ddr5_seq_item extends uvm_sequence_item;
   logic dqs_t_burst [0:15];
   logic dqs_c_burst [0:15];
   rand logic [`DATA_WIDTH-1:0] dq_burst[16];
-  
-  
+
   function new(string name ="ddr5_seq_item");
     super.new(name);
   endfunction
-  
   function void do_print(uvm_printer printer);
     printer.print_field("cmd",this.cmd,UVM_DEC);
     printer.print_field("bg",this.bg,UVM_DEC);
@@ -140,7 +136,5 @@ class ddr5_seq_item extends uvm_sequence_item;
     printer.print_field("row",this.row,UVM_DEC);
     printer.print_field("col",this.col,UVM_DEC);
     printer.print_field("dq",this.dq,UVM_DEC);
-    
   endfunction
 endclass
-
