@@ -13,7 +13,6 @@ class ddr5_monitor extends uvm_monitor;
  
   int rd_preamble_tck;
   int rd_preamble_samples;
-  bit read_response_present;
  
   function new(string name = "ddr5_monitor", uvm_component parent = null);
     super.new(name, parent);
@@ -122,38 +121,49 @@ class ddr5_monitor extends uvm_monitor;
         `uvm_info("DDR5_MON",
           $sformatf("WRITE : BG=%0d BA=%0d COL=%0d",
                     tr.bg, tr.ba, tr.col), UVM_LOW)
- 
+	fork begin 
         sample_write_data(tr);
  
         `uvm_info("MON_SB",
           "Sending WRITE transaction to scoreboard", UVM_LOW)
  
         ddr5_ap.write(tr);
+	end 
+	join_none
  
       end
  
+
       READ: begin
- 
-        tr.bg = ca1[10:8];
-        tr.ba = ca1[7:6];
-        tr.col[10:3] = ca2[8:1];
-        tr.col[2:0] = 3'b000;
-        tr.rd_preamble = current_rd_preamble;
- 
-        `uvm_info("DDR5_MON",$sformatf("READ : BG=%0d BA=%0d COL=%0d",
-             tr.bg, tr.ba, tr.col), UVM_LOW)
- 
-        sample_read_data(tr);
- 
-        `uvm_info("MON_SB",
-          "Sending READ transaction to scoreboard", UVM_LOW)
- 
-        ddr5_ap.write(tr);
- 
-      end
+  ddr5_seq_item rd_tr;
+  rd_tr = ddr5_seq_item::type_id::create("rd_tr", this);
+
+  rd_tr.cmd = READ;
+  rd_tr.bg = ca1[10:8];
+  rd_tr.ba = ca1[7:6];
+  rd_tr.col[10:3] = ca2[8:1];
+  rd_tr.col[2:0] = 3'b000;
+  rd_tr.rd_preamble = current_rd_preamble;
+
+  `uvm_info("READ_DEBUG",$sformatf("READ TRANSACTION CREATED BG=%0d BA=%0d COL=%0d",rd_tr.bg,rd_tr.ba,rd_tr.col),UVM_LOW)
+
+  fork
+    begin
+      //`uvm_info("READ_DEBUG",$sformatf("BEFORE sample_read_data BG=%0d",rd_tr.bg),UVM_LOW)
+
+      sample_read_data(rd_tr);
+
+      //`uvm_info("READ_DEBUG",$sformatf("AFTER sample_read_data BG=%0d",rd_tr.bg),UVM_LOW)
+
+      `uvm_info("MON_SB",$sformatf("Sending READ transaction to scoreboard BG=%0d BA=%0d COL=%0d",rd_tr.bg,rd_tr.ba,rd_tr.col),UVM_LOW)
+
+      ddr5_ap.write(rd_tr);
+    end
+  join_none
+end
  
       ACTIVATE: begin
- 
+	tr.command_time = $realtime; 
         tr.bg = ca1[10:8];
         tr.ba = ca1[7:6];
         tr.row[3:0] = ca1[5:2];
@@ -374,9 +384,10 @@ class ddr5_monitor extends uvm_monitor;
  
   endfunction
  
-  task sample_read_data(ddr5_seq_item tr);
+  task sample_read_data(ddr5_seq_item rd_tr);
  
     int wait_cycles;
+  bit read_response_present;
  
     get_rd_preamble_info();
  
@@ -409,28 +420,28 @@ class ddr5_monitor extends uvm_monitor;
  
         @(vif.ddr5_mon_cb_t);
  
-        tr.dqs_t_preamble[i] = vif.ddr5_mon_cb_t.dqs_t;
-        tr.dqs_c_preamble[i] = vif.ddr5_mon_cb_t.dqs_c;
+        rd_tr.dqs_t_preamble[i] = vif.ddr5_mon_cb_t.dqs_t;
+        rd_tr.dqs_c_preamble[i] = vif.ddr5_mon_cb_t.dqs_c;
  
         `uvm_info("DDR5_MON_RD_PRE",
           $sformatf("PREAMBLE[%0d] T : DQS_T=%b DQS_C=%b",
                     i,
-                    tr.dqs_t_preamble[i],
-                    tr.dqs_c_preamble[i]), UVM_LOW)
+                    rd_tr.dqs_t_preamble[i],
+                    rd_tr.dqs_c_preamble[i]), UVM_LOW)
  
       end
       else begin
  
         @(vif.ddr5_mon_cb_c);
  
-        tr.dqs_t_preamble[i] = vif.ddr5_mon_cb_c.dqs_t;
-        tr.dqs_c_preamble[i] = vif.ddr5_mon_cb_c.dqs_c;
+        rd_tr.dqs_t_preamble[i] = vif.ddr5_mon_cb_c.dqs_t;
+        rd_tr.dqs_c_preamble[i] = vif.ddr5_mon_cb_c.dqs_c;
  
         `uvm_info("DDR5_MON_RD_PRE",
           $sformatf("PREAMBLE[%0d] C : DQS_T=%b DQS_C=%b",
                     i,
-                    tr.dqs_t_preamble[i],
-                    tr.dqs_c_preamble[i]), UVM_LOW)
+                    rd_tr.dqs_t_preamble[i],
+                    rd_tr.dqs_c_preamble[i]), UVM_LOW)
  
       end
  
@@ -440,10 +451,10 @@ class ddr5_monitor extends uvm_monitor;
  
     for (int i = 0; i < rd_preamble_samples; i++) begin
  
-      if ((tr.dqs_t_preamble[i] !== 1'b0 &&
-           tr.dqs_t_preamble[i] !== 1'b1) ||
-          (tr.dqs_c_preamble[i] !== 1'b0 &&
-           tr.dqs_c_preamble[i] !== 1'b1)) begin
+      if ((rd_tr.dqs_t_preamble[i] !== 1'b0 &&
+           rd_tr.dqs_t_preamble[i] !== 1'b1) ||
+          (rd_tr.dqs_c_preamble[i] !== 1'b0 &&
+           rd_tr.dqs_c_preamble[i] !== 1'b1)) begin
  
         read_response_present = 1'b0;
         break;
@@ -460,9 +471,9 @@ class ddr5_monitor extends uvm_monitor;
  
       for (int i = 0; i < 16; i++) begin
  
-        tr.dqs_t_burst[i] = 1'bx;
-        tr.dqs_c_burst[i] = 1'bx;
-        tr.dq_burst[i] = 'x;
+        rd_tr.dqs_t_burst[i] = 1'bx;
+        rd_tr.dqs_c_burst[i] = 1'bx;
+        rd_tr.dq_burst[i] = 'x;
  
         `uvm_info("DDR5_MON",
           $sformatf("READ[%0d] DQS_T=X DQS_C=X DQ=X", i),
@@ -483,27 +494,27 @@ class ddr5_monitor extends uvm_monitor;
  
           @(vif.ddr5_mon_dqs_t_cb);
  
-          tr.dqs_t_burst[i] = vif.ddr5_mon_dqs_t_cb.dqs_t;
-          tr.dqs_c_burst[i] = vif.ddr5_mon_dqs_t_cb.dqs_c;
-          tr.dq_burst[i] = vif.ddr5_mon_dqs_t_cb.dq;
+          rd_tr.dqs_t_burst[i] = vif.ddr5_mon_dqs_t_cb.dqs_t;
+          rd_tr.dqs_c_burst[i] = vif.ddr5_mon_dqs_t_cb.dqs_c;
+          rd_tr.dq_burst[i] = vif.ddr5_mon_dqs_t_cb.dq;
  
         end
         else begin
  
           @(vif.ddr5_mon_dqs_c_cb);
  
-          tr.dqs_t_burst[i] = vif.ddr5_mon_dqs_c_cb.dqs_t;
-          tr.dqs_c_burst[i] = vif.ddr5_mon_dqs_c_cb.dqs_c;
-          tr.dq_burst[i] = vif.ddr5_mon_dqs_c_cb.dq;
+          rd_tr.dqs_t_burst[i] = vif.ddr5_mon_dqs_c_cb.dqs_t;
+          rd_tr.dqs_c_burst[i] = vif.ddr5_mon_dqs_c_cb.dqs_c;
+          rd_tr.dq_burst[i] = vif.ddr5_mon_dqs_c_cb.dq;
  
         end
  
         `uvm_info("DDR5_MON_READ_DQ",
           $sformatf("READ[%0d] DQS_T=%b DQS_C=%b DQ=%0h",
                     i,
-                    tr.dqs_t_burst[i],
-                    tr.dqs_c_burst[i],
-                    tr.dq_burst[i]), UVM_LOW)
+                    rd_tr.dqs_t_burst[i],
+                    rd_tr.dqs_c_burst[i],
+                    rd_tr.dq_burst[i]), UVM_LOW)
  
       end
  

@@ -17,7 +17,7 @@ module ddr5_top;
  
   initial begin
     uvm_config_db #(virtual ddr5_interface)::set(null,"*","ddr5_interface",vif);
- 
+uvm_config_db#(realtime)::set(null, "*", "tCK", tCK); 
     //     Start UVM_test
     run_test("ddr5_test");
   end

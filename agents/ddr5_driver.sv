@@ -7,6 +7,7 @@ class ddr5_driver extends uvm_driver #(ddr5_seq_item);
   virtual ddr5_interface vif;
 
   ddr5_seq_item seq;
+  int faw_count = 0;
 
   // Constructor
 
@@ -774,15 +775,42 @@ join
 
     case (seq.cmd)
 
-      ACTIVATE: begin
+ACTIVATE: begin
 
-        activate(seq);
+  if(seq.faw_test) begin
 
-        repeat(`TRCD)
+    faw_count++;
 
-          @(vif.ddr5_drv_cb_t);
+    if(faw_count == 1) begin
+      activate(seq);
+    end
+    else if(faw_count < 5) begin
+      repeat(`FAW_RRD_GAP)
+        @(vif.ddr5_drv_cb_t);
+      activate(seq);
+    end
+    else begin
+      repeat(`FAW_VIOLATION_GAP)
+        @(vif.ddr5_drv_cb_t);
+      activate(seq);
+    end
+   if ((seq.faw_test == 2 && faw_count == 4) ||
+        (seq.faw_test == 1 && faw_count == 5)) begin
+      repeat (`TRCD)
+        @(vif.ddr5_drv_cb_t);
+      faw_count = 0;
+    end 
+  end
+  else begin
 
-      end
+    activate(seq);
+
+    repeat(`TRCD)
+      @(vif.ddr5_drv_cb_t);
+
+  end
+
+end
 
       WRITE: begin
 

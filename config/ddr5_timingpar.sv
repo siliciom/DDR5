@@ -26,7 +26,10 @@
 `define TAA  22 //internal read cmd to first data
 `define TCCD_L 8 // CAS_n to CAS_n Delay (Same BG)
 `define TCCD_L_WR 32 //WRITE CAS_n to WRITE CAS_n (Same BG)
-`define TCCD_S 8    // CAS_n to CAS_n Delay (Diff BG)
+`define TCCD_S 8 // CAS_n to CAS_n Delay (Diff BG)
+`define FAW_CMD_CYCLES 3
+`define FAW_RRD_GAP (`TRRD_S - `FAW_CMD_CYCLES)
+`define FAW_VIOLATION_GAP ((`TFAW - 1) - (3 * `TRRD_S) - `FAW_CMD_CYCLES)
 
 `define TFAW 32 //Four Activate Window 
 `define TRTP 12 //Internal READ to PRECHARGE Delay

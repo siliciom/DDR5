@@ -9,10 +9,11 @@ set run_opts ""
 # ==========================================
  
 if {$testname == "ddr5_test"} {
- 
+
 # set comp_opts "+define+INJECTING_TIMING_ERROR"
 # set run_opts "+ERR_TO_WARN"
- 
+} elseif {$testname == "ddr5_tFAW_bank_1600_test"} {
+} elseif {$testname == "ddr5_tFAW_4bank_1600_test"} {
 } elseif {$testname == "ddr5_test_x8"} {
  
     set comp_opts "+define+DDR_X8"
@@ -25,6 +26,8 @@ transcript quietly
 set valid_tests {
     ddr5_test
     ddr5_test_x8
+    ddr5_tFAW_bank_1600_test
+    ddr5_tFAW_4bank_1600_test
     }
 # ==========================================
 # Check whether test is valid

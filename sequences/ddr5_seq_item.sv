@@ -120,6 +120,8 @@ class ddr5_seq_item extends uvm_sequence_item;
   rand bit dm;
   rand bit [7:0]mra;
   rand bit [7:0]mr_opcode;
+  int faw_test;
+  realtime command_time;
   logic dqs_t_preamble [0:7];
   logic dqs_c_preamble [0:7];
   logic dqs_t_burst [0:15];

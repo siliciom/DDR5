@@ -1,0 +1,85 @@
+<!-- THIS IS TOOL GENERATED SESSION FILE. PLEASE DO NOT MODIFY THIS -->
+<!DOCTYPE visualizer_session>
+<session version="3" skip_do_file="0">
+ <app argc="5">
+  <argv pos="0" value="visualizer"/>
+  <argv pos="1" value="+wavefile+/home/siva_jyothi/DDR5/DDR5/sim/results/ddr5_tFAW_bank_1600_test/qwave.db"/>
+  <argv pos="2" value="+viswave"/>
+  <argv pos="3" value="+read_viswave_info"/>
+  <argv pos="4" value="+genDesignOMFromWave"/>
+ </app>
+ <window_config>
+  <expanded_mode enabled="false"/>
+  <dockareas top="0" bottom="216" right="669" left="589"/>
+  <taborder bottom="transcript+" right="variables+" left="structure+"/>
+  <activetab bottom="transcript" right="variables" left="structure" activewindow="wave"/>
+  <window undocked="0" geometry="AdnQywADAAAAAAAAAAAAPAAAAkwAAAGJAAAAAAAAADwAAAJMAAABiQAAAAAAAAAABQAAAAAAAAAAPAAAAkwAAAGJ" windowstate="" type="structure" dock_location="left" visible="1"/>
+  <window undocked="0" geometry="AdnQywADAAAAAAJjAAAAPAAABP8AAAGJAAACYwAAADwAAAT/AAABiQAAAAAAAAAABQAAAAJjAAAAPAAABP8AAAGJ" windowstate="AAAA/wAAAAD9AAAAAAAAAp0AAAEVAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAQAAAAaAGYAaQBsAHQAZQByAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAABYAdwBhAHYAZQBUAG8AbwBsAEIAYQByAQAAAGv/////AAAAAAAAAAAAAAAYAGYAbwByAGMAZQBUAG8AbwBsAEIAYQByAQAAAQL/////AAAAAAAAAAAAAAAcAEYAaQBsAHQAZQByAFQAbwBvAGwAQgBhAHIAMgEAAAFG/////wAAAAAAAAAA" type="variables" dock_location="right" visible="1"/>
+  <window undocked="0" geometry="AdnQywADAAAAAAAAAAABlQAABP8AAAJsAAAAAAAAAZUAAAT/AAACbAAAAAAAAAAABQAAAAAAAAABlQAABP8AAAJs" windowstate="" type="transcript" dock_location="bottom" visible="1"/>
+  <window undocked="0" geometry="AdnQywADAAAAAAAAAAAAFwAABP8AAAKfAAAAAAAAABcAAAT/AAACnwAAAAAAAAAABQAAAAAAAAAAFwAABP8AAAKf" windowstate="AAAA/wAAAAD9AAAAAwAAAAAAAAJNAAABTvwCAAAAAfsAAAASAHMAdAByAHUAYwB0AHUAcgBlAQAAADwAAAFOAAAAWwD///8AAAABAAACnQAAAU78AgAAAAH7AAAAEgB2AGEAcgBpAGEAYgBsAGUAcwEAAAA8AAABTgAAAFsA////AAAAAwAABQAAAADY/AEAAAAB/AAAAAAAAAUAAAAAYgD////6AAAAAAEAAAAC+wAAABQAdAByAGEAbgBzAGMAcgBpAHAAdAEAAAAA/////wAAAGIA////+wAAACgAVwBhAHYAZQAwAF8AdwBhAHYAZQBGAG8AcgBtAFcAaQBuAEMAbABzAwAAAAAAAAAXAAAFAAAAAokAAAAAAAABTgAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAAEAAAAKABNAGEAaQBuAF8ASABpAHMAdABvAHIAeQBfAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAACQAUgBUAEwAXwBXAGkAbgBkAG8AdwBfAFQAbwBvAGwAQgBhAHIBAAAAlv////8AAAAAAAAAAAAAADYARwBJAEQAXwBTAHIAYwBWAGkAZQB3AF8ATwBwAHQAaQBvAG4AcwBfAFQAbwBvAGwAQgBhAHIBAAAA2v////8AAAAAAAAAAAAAAEYARwBJAEQAXwBNAGEAaQBuAFMAcgBjAFcAaQBuAGQAbwB3AF8AVABpAG0AZQBTAGMAYQBsAGUAXwBUAG8AbwBsAEIAYQByAQAAAQj/////AAAAAAAAAAA=" type="rtl" dock_location="right" visible="1"/>
+  <window undocked="1" geometry="AdnQywADAAAAAAAAAAAAFwAABP8AAAKfAAAAAAAAABcAAAT/AAACnwAAAAAAAAAABQAAAAAAAAAAFwAABP8AAAKf" windowstate="" type="wave" dock_location="bottom" visible="1"/>
+ </window_config>
+ <wave_file_mgr>
+  <waveFile fileName="/home/siva_jyothi/DDR5/DDR5/sim/results/ddr5_tFAW_bank_1600_test/qwave.db" tagName="F0" waveType="0"/>
+ </wave_file_mgr>
+ <gui>
+  <main_window visible="1"/>
+  <watchTower_cur_setting curActiveWaveFile="F0" curRadix="2" customDisplayTimeUnitListStr="" curDisplayTimeUnit="-9" curDisplayTimeUnitStr="1ns">
+   <curTime lowtime="330215" hightime="0"/>
+  </watchTower_cur_setting>
+  <structure selection="ddr5_top.vif"/>
+  <variables CA="0" UPF="0"/>
+  <transcript/>
+  <wave name="Wave0">
+   <timeunit value="11"/>
+   <frequnit value="2"/>
+   <showdiff value="0"/>
+  </wave>
+  <custom_menus>
+   <tcl_commands/>
+  </custom_menus>
+ </gui>
+ <wave_mgr sync_time_range="0">
+  <waveWindow primNudge="1" alignBaseName="0" showSecCursor="0" showMarkers="1" displayFileTag="1" waveWidth="1033" displayRadixWithValue="1" valueWidth="83" wintype="4" displayScopeName="1" value_tooltip="0" secNudge="1" displayGrid="0" justifySignalPath="Right" signalHeight="18" trackViewToTime="1" displayTimeUnitStr="1ns" nameWidth="119" displayLeadingZeros="0" displayGlobalView="1" swapRepresentationOfX="0" displayTimeUnit="-9" snapToEdge="1">
+   <window name="Wave0">
+    <timeunit value="11"/>
+    <frequnit value="2"/>
+    <showdiff value="0"/>
+   </window>
+   <viewPort>
+    <beginTime lowtime="0" hightime="0"/>
+    <endTime lowtime="509733" hightime="0"/>
+    <beginViewTime lowtime="301906" hightime="0"/>
+    <endViewTime lowtime="365618" hightime="0"/>
+    <beginLastViewTime lowtime="301906" hightime="0"/>
+    <endLastViewTime lowtime="365618" hightime="0"/>
+   </viewPort>
+   <primCursor lowtime="330215" hightime="0"/>
+   <wavetclcommands>
+    <tcl command="wave update off"/>
+    <tcl command="wave clearselection"/>
+    <tcl commandblock="custom radix definitions"></tcl>
+    <tcl command="wave update off"/>
+    <tcl command="wave zoom range 301906 365618"/>
+    <tcl command="wave add ddr5_top.vif.ca -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.ck_c -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.ck_t -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.cmd -tag F0 -radix mnemonic -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.cs_n -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.dm_n -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.dq -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.dqs_c -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.dqs_t -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave add ddr5_top.vif.reset_n -tag F0 -radix hexadecimal -enumsymbolic  -select"/>
+    <tcl command="wave update on"/>
+    <tcl command="wave top 0"/>
+    <tcl command="wave cursor add -name {Cursor 1} -time 330215ps -color Gold -restore -primary"/>
+    <tcl command="wave cursor add -name {Cursor 2} -time 0ps -color Gold -restore -secondary"/>
+    <tcl command=""/>
+   </wavetclcommands>
+  </waveWindow>
+ </wave_mgr>
+ <mem_mgr/>
+ <windows/>
+ <dut selection="ddr5_top.vif"/>
+</session>

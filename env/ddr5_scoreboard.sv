@@ -1,4 +1,5 @@
 class ddr5_scoreboard extends uvm_scoreboard;
+ `include "../config/ddr5_timingpar.sv"
   `uvm_component_utils(ddr5_scoreboard)
   // Analysis Port
   uvm_analysis_imp #(ddr5_seq_item, ddr5_scoreboard) sb_port;
@@ -7,10 +8,21 @@ bit [`DATA_WIDTH-1:0] mem [bit [`BG_WIDTH-1:0]][bit [`BA_WIDTH-1:0]][bit [`ROW_W
 bit bank_active [bit [`BG_WIDTH-1:0]][bit [`BA_WIDTH-1:0]];
  
 bit [`ROW_WIDTH-1:0] active_row [bit [`BG_WIDTH-1:0]][bit [`BA_WIDTH-1:0]];
+	realtime tCK;
+	realtime current_time;
+	realtime activate_time[$];
    function new(string name = "ddr5_scoreboard",uvm_component parent = null);
     super.new(name,parent);
     sb_port = new("sb_port",this);
   endfunction
+
+  function void build_phase(uvm_phase phase);
+  super.build_phase(phase);
+  if (!uvm_config_db#(realtime)::get(this, "", "tCK", tCK))
+    `uvm_fatal("DDR5_SB", "tCK not configured")
+  `uvm_info("DDR5_SB", $sformatf("tCK = %0.3f ns", tCK), UVM_LOW)
+endfunction
+
   function void compare(
     bit [`BG_WIDTH-1:0] bg,
     bit [`BA_WIDTH-1:0] ba,
@@ -34,11 +46,21 @@ bit [`ROW_WIDTH-1:0] active_row [bit [`BG_WIDTH-1:0]][bit [`BA_WIDTH-1:0]];
     bit [`DATA_WIDTH-1:0] expected;
     case (seq.cmd)
       // ACTIVATE
-      ACTIVATE: begin
-        active_row[seq.bg][seq.ba] = seq.row;
-        bank_active[seq.bg][seq.ba] = 1'b1;
-        `uvm_info("DDR5_SB", $sformatf("ACTIVATE BG=%0d BA=%0d ROW=%0d", seq.bg, seq.ba, seq.row), UVM_LOW)
-      end
+    ACTIVATE: begin
+  current_time = seq.command_time;
+
+  while (activate_time.size() > 0 && (current_time - activate_time[0]) >= (`TFAW * tCK))
+    activate_time.pop_front();
+
+  if (activate_time.size() >= 4)
+    `uvm_error("DDR5_FAW_VIOLATION", $sformatf("FAW violation: 5th or later ACTIVATE within tFAW. BG=%0d BA=%0d ROW=%0d TIME=%0t OLDEST_ACT=%0t", seq.bg, seq.ba, seq.row, current_time, activate_time[0]))
+  else
+    `uvm_info("DDR5_FAW", $sformatf("ACTIVATE count=%0d BG=%0d BA=%0d ROW=%0d TIME=%0t", activate_time.size()+1, seq.bg, seq.ba, seq.row, current_time), UVM_LOW)
+
+  activate_time.push_back(current_time);
+  active_row[seq.bg][seq.ba] = seq.row;
+  bank_active[seq.bg][seq.ba] = 1'b1;
+end 
       // WRITE
      WRITE: begin
   bit preamble_valid;
@@ -149,7 +171,7 @@ READ: begin
   bit dqs_preamble_valid;
   bit dqs_toggling;
   if (!bank_active[seq.bg][seq.ba]) begin
-    `uvm_error("DDR5_SB", $sformatf("READ ON CLOSED BANK BG=%0d BA=%0d", seq.bg, seq.ba))
+    `uvm_error("DDR5_SB_READ", $sformatf("READ ON CLOSED BANK BG=%0d BA=%0d", seq.bg, seq.ba))
     return;
   end
   row = active_row[seq.bg][seq.ba];
@@ -161,7 +183,7 @@ READ: begin
     if ((seq.dqs_t_preamble[i] !== 1'b0 && seq.dqs_t_preamble[i] !== 1'b1) ||
         (seq.dqs_c_preamble[i] !== 1'b0 && seq.dqs_c_preamble[i] !== 1'b1)) begin
       dqs_preamble_valid = 0;
-      `uvm_error("DDR5_SB_DQS_PREAMBLE", $sformatf("READ DQS PREAMBLE NOT DETECTED AT SAMPLE=%0d DQS_T=%b DQS_C=%b", i, seq.dqs_t_preamble[i], seq.dqs_c_preamble[i]))
+      `uvm_error("DDR5_SB_READ_DQS_PREAMBLE", $sformatf("READ DQS PREAMBLE NOT DETECTED AT SAMPLE=%0d DQS_T=%b DQS_C=%b", i, seq.dqs_t_preamble[i], seq.dqs_c_preamble[i]))
       break;
     end
   end
@@ -176,7 +198,7 @@ READ: begin
     end
   end
   if (!dqs_toggling) begin
-    `uvm_error("DDR5_SB_DQS_TOGGLE", "READ DQS IS NOT TOGGLING")
+    `uvm_error("DDR5_SB_READ_DQS_TOGGLE", "READ DQS IS NOT TOGGLING")
   end
   // Compare BL16 data only for valid DQS response
   if (dqs_preamble_valid && dqs_toggling) begin
@@ -187,12 +209,12 @@ READ: begin
         compare(seq.bg, seq.ba, row, col_addr, i, seq.dq_burst[i], expected);
       end
       else begin
-        `uvm_error("DDR5_SB", $sformatf("READ ADDRESS NEVER WRITTEN BG=%0d BA=%0d ROW=%0d COL=%0d BEAT=%0d", seq.bg, seq.ba, row, col_addr, i))
+        `uvm_error("DDR5_SB_READ", $sformatf("READ ADDRESS NEVER WRITTEN BG=%0d BA=%0d ROW=%0d COL=%0d BEAT=%0d", seq.bg, seq.ba, row, col_addr, i))
       end
     end
   end
   else begin
-    `uvm_info("DDR5_SB", "READ DATA COMPARISON SKIPPED DUE TO INVALID DQS RESPONSE", UVM_LOW)
+    `uvm_info("DDR5_SB_READ", "READ DATA COMPARISON SKIPPED DUE TO INVALID DQS RESPONSE", UVM_LOW)
   end
 end
 

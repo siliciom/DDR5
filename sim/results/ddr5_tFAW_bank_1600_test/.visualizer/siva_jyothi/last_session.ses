@@ -1,0 +1,41 @@
+<!-- THIS IS TOOL GENERATED SESSION FILE. PLEASE DO NOT MODIFY THIS -->
+<!DOCTYPE visualizer_session>
+<session version="3" skip_do_file="0">
+ <app argc="5">
+  <argv value="visualizer" pos="0"/>
+  <argv value="+wavefile+/home/siva_jyothi/DDR5/DDR5/sim/results/ddr5_tFAW_bank_1600_test/qwave.db" pos="1"/>
+  <argv value="+viswave" pos="2"/>
+  <argv value="+read_viswave_info" pos="3"/>
+  <argv value="+genDesignOMFromWave" pos="4"/>
+ </app>
+ <window_config>
+  <expanded_mode enabled="false"/>
+  <dockareas right="669" left="589" bottom="216" top="0"/>
+  <taborder right="variables+" left="structure+" bottom="transcript+"/>
+  <activetab right="variables" left="structure" bottom="transcript" activewindow="variables"/>
+  <window visible="1" undocked="0" type="structure" geometry="AdnQywADAAAAAAAAAAAAPAAAAkwAAAGJAAAAAAAAADwAAAJMAAABiQAAAAAAAAAABQAAAAAAAAAAPAAAAkwAAAGJ" dock_location="left" windowstate=""/>
+  <window visible="1" undocked="0" type="variables" geometry="AdnQywADAAAAAAJjAAAAPAAABP8AAAGJAAACYwAAADwAAAT/AAABiQAAAAAAAAAABQAAAAJjAAAAPAAABP8AAAGJ" dock_location="right" windowstate="AAAA/wAAAAD9AAAAAAAAAp0AAAEVAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAQAAAAaAGYAaQBsAHQAZQByAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAABYAdwBhAHYAZQBUAG8AbwBsAEIAYQByAQAAAGv/////AAAAAAAAAAAAAAAYAGYAbwByAGMAZQBUAG8AbwBsAEIAYQByAQAAAQL/////AAAAAAAAAAAAAAAcAEYAaQBsAHQAZQByAFQAbwBvAGwAQgBhAHIAMgEAAAFG/////wAAAAAAAAAA"/>
+  <window visible="1" undocked="0" type="transcript" geometry="AdnQywADAAAAAAAAAAABlQAABP8AAAJsAAAAAAAAAZUAAAT/AAACbAAAAAAAAAAABQAAAAAAAAABlQAABP8AAAJs" dock_location="bottom" windowstate=""/>
+  <window visible="1" undocked="0" type="rtl" geometry="AdnQywADAAAAAAAAAAAAFwAABP8AAAKfAAAAAAAAABcAAAT/AAACnwAAAAAAAAAABQAAAAAAAAAAFwAABP8AAAKf" dock_location="right" windowstate="AAAA/wAAAAD9AAAAAwAAAAAAAAJNAAABTvwCAAAAAfsAAAASAHMAdAByAHUAYwB0AHUAcgBlAQAAADwAAAFOAAAAWwD///8AAAABAAACnQAAAU78AgAAAAH7AAAAEgB2AGEAcgBpAGEAYgBsAGUAcwEAAAA8AAABTgAAAFsA////AAAAAwAABQAAAADY/AEAAAAB/AAAAAAAAAUAAAAAYgD////6AAAAAAEAAAAC+wAAABQAdAByAGEAbgBzAGMAcgBpAHAAdAEAAAAA/////wAAAGIA////+wAAACgAVwBhAHYAZQAwAF8AdwBhAHYAZQBGAG8AcgBtAFcAaQBuAEMAbABzAgAAAAAAAAAXAAAFAAAAAokAAAAAAAABTgAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAAEAAAAKABNAGEAaQBuAF8ASABpAHMAdABvAHIAeQBfAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAACQAUgBUAEwAXwBXAGkAbgBkAG8AdwBfAFQAbwBvAGwAQgBhAHIBAAAAlv////8AAAAAAAAAAAAAADYARwBJAEQAXwBTAHIAYwBWAGkAZQB3AF8ATwBwAHQAaQBvAG4AcwBfAFQAbwBvAGwAQgBhAHIBAAAA2v////8AAAAAAAAAAAAAAEYARwBJAEQAXwBNAGEAaQBuAFMAcgBjAFcAaQBuAGQAbwB3AF8AVABpAG0AZQBTAGMAYQBsAGUAXwBUAG8AbwBsAEIAYQByAQAAAQj/////AAAAAAAAAAA="/>
+  <window visible="0" undocked="1" type="wave" geometry="" dock_location="bottom" windowstate=""/>
+ </window_config>
+ <wave_file_mgr>
+  <waveFile waveType="0" tagName="F0" fileName="/home/siva_jyothi/DDR5/DDR5/sim/results/ddr5_tFAW_bank_1600_test/qwave.db"/>
+ </wave_file_mgr>
+ <gui>
+  <main_window visible="1"/>
+  <watchTower_cur_setting customDisplayTimeUnitListStr="" curActiveWaveFile="F0" curDisplayTimeUnitStr="1ns" curRadix="2" curDisplayTimeUnit="-9">
+   <curTime lowtime="310183" hightime="0"/>
+  </watchTower_cur_setting>
+  <structure selection="ddr5_top.vif"/>
+  <variables UPF="0" CA="0"/>
+  <transcript/>
+  <custom_menus>
+   <tcl_commands/>
+  </custom_menus>
+ </gui>
+ <wave_mgr sync_time_range="0"/>
+ <mem_mgr/>
+ <windows/>
+ <dut selection="ddr5_top.vif"/>
+</session>

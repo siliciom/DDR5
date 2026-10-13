@@ -1,0 +1,5 @@
+BEGIN 3:ddr5_interface:fast__2:work
+    ck_t :  3:ddr5_interface:fast__2:work
+    ca :  3:ddr5_interface:fast__2:work
+    cs_n :  3:ddr5_interface:fast__2:work
+END 

@@ -1,0 +1,11 @@
+2 7 uvm_pkg 4 fast 48 /opt/Siemens/questaone/2026.2/questasim/uvm-1.1d 1 0 26771456 0 136476 0
+2 14 questa_uvm_pkg 4 fast 48 /opt/Siemens/questaone/2026.2/questasim/uvm-1.1d 1 0 1480704 26771456 7313 0
+2 12 ddr5_seq_pkg 4 fast 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 1588224 26771456 3781 0
+2 16 ddr5_top_sv_unit 4 fast 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 0 27557888 0 0
+1 14 ddr5_agent_pkg 4 fast 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 1511424 27557888 3587 0
+1 12 ddr5_env_pkg 4 fast 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 340992 28213248 1399 0
+1 13 ddr5_test_pkg 4 fast 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 289792 28475392 654 0
+1 8 ddr5_pkg 4 fast 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 0 28606464 0 0
+2 14 ddr5_interface 5 synth 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 0 27557888 0 0
+2 14 ddr5_interface 7 fast__2 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 131072 27557888 985 0
+1 8 ddr5_top 4 fast 36 /home/siva_jyothi/DDR5/DDR5/sim/work 1 0 0 28606464 67 0

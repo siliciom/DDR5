@@ -6,6 +6,9 @@
    `include "ddr5_seq_item.sv"
    `include "ddr5_seq.sv"
    `include "ddr5_seq_x8.sv"
+   `include "ddr5_tFAW_bank_1600_seq.sv"
+   `include "ddr5_tFAW_4bank_1600_seq.sv"
+
  
    
  
