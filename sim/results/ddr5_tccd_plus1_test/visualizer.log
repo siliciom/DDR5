@@ -1,0 +1,37 @@
+# VISUALIZERROOT = '/opt/Siemens/questaone/2026.2/questasim/linux_x86_64/VisualizerRls'
+# USER = 'saketh'
+# Siemens software version 2026.2_1 (Build on Jun 25 2026)
+# Unpublished work. Copyright 2026 Siemens
+
+# visualizer
+# visualizer -wavefile /home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus1_test/qwave.db
+# Restoring last session...
+# 12:08:16: Loading waveform header...
+# 12:08:16: Loaded  waveform header
+# visualizer -wavefile /home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus2_test/qwave.db
+# 12:16:55: Loading waveform header...
+# 12:16:55: Loaded  waveform header
+# Wave file "/home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus2_test/qwave.db" has been overwritten as of 12:21:19 on 2026-10-15
+# 12:21:19: Loading waveform header...
+# 12:21:19: Loaded  waveform header
+# visualizer -wavefile /home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus3_test/qwave.db
+# 12:22:52: Loading waveform header...
+# 12:22:52: Loaded  waveform header
+# Wave file "/home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus3_test/qwave.db" has been overwritten as of 12:25:14 on 2026-10-15
+# 12:25:14: Loading waveform header...
+# 12:25:14: Loaded  waveform header
+# visualizer -wavefile /home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus4_test/qwave.db
+# 12:27:27: Loading waveform header...
+# 12:27:27: Loaded  waveform header
+# visualizer -wavefile /home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus5_test/qwave.db
+# 12:44:34: Loading waveform header...
+# 12:44:34: Loaded  waveform header
+# Wave file "/home/saketh/consective/DDR5/sim/results/ddr5_tccd_plus5_test/qwave.db" has been overwritten as of 12:46:34 on 2026-10-15
+# 12:46:34: Loading waveform header...
+# 12:46:34: Loaded  waveform header
+# Window layout 'Default' saved in file: /home/saketh/.visualizer/layout.xml
+# Start  : Thu Oct 15 12:06:49 2026
+# End    : Thu Oct 15 13:09:14 2026
+# VMSize : 3038816 kB
+# VMPeak : 3124572 kB
+# MaxRSS : 381100 kB

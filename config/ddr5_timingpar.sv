@@ -14,22 +14,38 @@
 `define TRAS 52 //ACTIVEto precharge command
 `define TRCD 22  //Activate to READ or WRITE command
 `define TRC  74    //ACTIVE to ACTIVE/AutoRefresh commandperiod
-`define TRRD_S 8    //ACTIVE bankA to ACTIVE bankB command(Diff BG)
-`define TRRD_L 8   //ACTIVE bankA to ACTIVE bankB command (same BG)
 
-`define TWTR_S 4  //Internal Write to Read Command Delay
 `define TWTRA TWR-TRTP //36 NEED TO SEE  //Internal Write to Read Command Delay
 `define TWR 48 //Write recovery time
 `define TRP 22 //PRECHARGE command period
 `define TCL 22  //read cas latency 
 `define TCWL 20 // Write  cas Latency
 `define TAA  22 //internal read cmd to first data
-`define TCCD_L 8 // CAS_n to CAS_n Delay (Same BG)
-`define TCCD_L_WR 32 //WRITE CAS_n to WRITE CAS_n (Same BG)
-`define TCCD_S 8    // CAS_n to CAS_n Delay (Diff BG)
-
 `define TFAW 32 //Four Activate Window 
 `define TRTP 12 //Internal READ to PRECHARGE Delay
 `define TPPD 2 // PRECHARGE to PRECHARGE Delay
+ // for btw to cmd delays
+`define TCCD_L 8 // CAS_n to CAS_n Delay (Same BG) rd to rd 
+`define TCCD_L_WR 16 //WRITE CAS_n to WRITE CAS_n (Same BG)
+`define TCCD_L_WR2 32 //WRITE CAS_n to WRITE CAS_n (Same BG)//////////
+`define TCCD_S 	8  // CAS_n to CAS_n Delay (Diff BG) rd to rd and wr to wr
+`define TWTR_S 4  //Internal Write to Read Command Delay
+`define TWTRA 4  //Internal Write to Read Command Delay/////////////////////
+`define TWTR_L 16  //Internal Write to Read Command Delay
+`define TRRD_S 8    //ACTIVE bankA to ACTIVE bankB command(Diff BG)
+`define TRRD_L 8   //ACTIVE bankA to ACTIVE bankB command (same BG)
+`define TPW_RESET 1600   //ACTIVE bankA to ACTIVE bankB command (same BG)
+
+
+
+
+`define FAW_CMD_CYCLES 3
+`define FAW_RRD_GAP (`TRRD_S - `FAW_CMD_CYCLES)
+`define FAW_VIOLATION_GAP ((`TFAW - 1) - (3 * `TRRD_S) - `FAW_CMD_CYCLES)
  
+`define TFAW 32 //Four Activate Window 
+`define TRTP 12 //Internal READ to PRECHARGE Delay
+`define TPPD 2 // PRECHARGE to PRECHARGE Delay//ACTIVE bankA to ACTIVE bankB command (same BG)
+
+
 

@@ -1,0 +1,6 @@
+__design_bin_path=/home/saketh/consective/DDR5/sim
+__design_bin_name_path=/home/saketh/consective/DDR5/sim/design.bin
+incr_run_version=327680
+incr_partial_run_stats=0:0
+incr_no_change_stats=0:0
+opt_data_elab=/home/saketh/consective/DDR5/sim/work/@_opt

@@ -1,0 +1,16 @@
+# VISUALIZERROOT = '/opt/Siemens/questaone/2026.2/questasim/linux_x86_64/VisualizerRls'
+# USER = 'saketh'
+# Siemens software version 2026.2_1 (Build on Jun 25 2026)
+# Unpublished work. Copyright 2026 Siemens
+
+# visualizer
+# visualizer -wavefile /home/saketh/consective/DDR5/sim/results/ddr5_mul_conseq_wr_rd_db_x8_test/qwave.db
+# Restoring last session...
+# 10:41:35: Loading waveform header...
+# 10:41:35: Loaded  waveform header
+# Window layout 'Default' saved in file: /home/saketh/.visualizer/layout.xml
+# Start  : Thu Oct 15 10:40:58 2026
+# End    : Thu Oct 15 10:51:18 2026
+# VMSize : 2890000 kB
+# VMPeak : 2922784 kB
+# MaxRSS : 300784 kB

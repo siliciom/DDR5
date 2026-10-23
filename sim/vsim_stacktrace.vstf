@@ -1,0 +1,416 @@
+# Current time Mon Oct 12 07:17:50 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8d80: '<unknown (@0x7fffffff8d80)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+
+# Current time Mon Oct 12 07:17:50 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8d80: '<unknown (@0x7fffffff8d80)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+
+# Current time Mon Oct 12 07:17:50 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8d80: '<unknown (@0x7fffffff8d80)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+
+# Current time Mon Oct 12 07:17:50 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8d80: '<unknown (@0x7fffffff8d80)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+
+# Current time Thu Oct 15 11:04:44 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8dc0: '<unknown (@0x7fffffff8dc0)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+
+# Current time Thu Oct 15 11:04:44 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8dc0: '<unknown (@0x7fffffff8dc0)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+
+# Current time Thu Oct 15 11:04:44 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8dc0: '<unknown (@0x7fffffff8dc0)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+
+# Current time Thu Oct 15 11:04:44 2026
+# Program = vsim
+# Id = "2026.2_1"
+# Version = "2026.06"
+# Date = "Jun 25 2026"
+# Platform = "linux_x86_64"
+# Signature = d702534a192b9694499e4e7e4966ca6c
+# 0    0x0000000000453e08: '<unknown (@0x453e08)>'
+# 1    0x00007fffffff8dc0: '<unknown (@0x7fffffff8dc0)>'
+# 2    0x000000000046c6a1: '<unknown (@0x46c6a1)>'
+# 3    0x000000000046ce67: '<unknown (@0x46ce67)>'
+# 4    0x000000000086788b: '<unknown (@0x86788b)>'
+# 5    0x0000000000cf7c43: '<unknown (@0xcf7c43)>'
+# 6    0x0000000000cf8028: '<unknown (@0xcf8028)>'
+# 7    0x00007ffff74485e1: '<unknown (@0x7ffff74485e1)>'
+# 8    0x00007ffff74486be: '<unknown (@0x7ffff74486be)>'
+# 9    0x0000000000cefcf8: '<unknown (@0xcefcf8)>'
+# 10   0x00000000070a2a14: '<unknown (@0x70a2a14)>'
+# 11   0x0000000000cfe6e6: '<unknown (@0xcfe6e6)>'
+# 12   0x00007ffff7445cb0: '<unknown (@0x7ffff7445cb0)>'
+# 13   0x00007ffff74ac802: '<unknown (@0x7ffff74ac802)>'
+# 14   0x00007ffff74a039c: '<unknown (@0x7ffff74a039c)>'
+# --> START OF USERCODE
+# 15   0x00007ffff7534541: '__select + 0x00000000000000a1' in '/usr/lib/x86_64-linux-gnu/libc.so.6'
+# <-- END OF USERCODE
+# 16   0x00000000072c9538: '<unknown (@0x72c9538)>'
+# 17   0x000000000728c1fc: '<unknown (@0x728c1fc)>'
+# 18   0x000000000705745d: '<unknown (@0x705745d)>'
+# 19   0x0000000000efed78: '<unknown (@0xefed78)>'
+# 20   0x0000000006b5c436: '<unknown (@0x6b5c436)>'
+# 21   0x0000000006b5d6f9: '<unknown (@0x6b5d6f9)>'
+# 22   0x0000000000c37f15: '<unknown (@0xc37f15)>'
+# 23   0x0000000000c39ae2: '<unknown (@0xc39ae2)>'
+# 24   0x0000000000c405fa: '<unknown (@0xc405fa)>'
+# 25   0x00000000012afbd0: '<unknown (@0x12afbd0)>'
+# 26   0x00000000012a9c4d: '<unknown (@0x12a9c4d)>'
+# 27   0x00000000071cf73d: '<unknown (@0x71cf73d)>'
+# 28   0x00000000071d3b96: '<unknown (@0x71d3b96)>'
+# 29   0x00000000071d5281: '<unknown (@0x71d5281)>'
+# 30   0x00000000071d55e6: '<unknown (@0x71d55e6)>'
+# 31   0x00000000015ad3db: '<unknown (@0x15ad3db)>'
+# 32   0x00000000072754ef: '<unknown (@0x72754ef)>'
+# 33   0x00000000072c9067: '<unknown (@0x72c9067)>'
+# 34   0x000000000728bf57: '<unknown (@0x728bf57)>'
+# 35   0x000000000728c239: '<unknown (@0x728c239)>'
+# 36   0x000000000705745d: '<unknown (@0x705745d)>'
+# 37   0x0000000000f0023c: '<unknown (@0xf0023c)>'
+# 38   0x0000000000cfcbbe: '<unknown (@0xcfcbbe)>'
+# 39   0x000000000044f4ca: '<unknown (@0x44f4ca)>'
+# End of Stack Trace
+
+

@@ -1,0 +1,428 @@
+# ** Note: (vsim-220) 'questa.ini' is used as the ini file.
+# vsim -debugDB -voptargs="+acc" work.ddr5_top "+UVM_TESTNAME=ddr5_tccd_plus4_test" "+UVM_VERBOSITY=UVM_LOW" -l ./results/ddr5_tccd_plus4_test/ddr5_tccd_plus4_test.log -qwavedb=+wavefile=./results/ddr5_tccd_plus4_test/qwave.db 
+# Start time: 12:26:15 on Oct 15,2026
+# Loading Siemens Visualizer shared object '/opt/Siemens/questaone/2026.2/questasim/linux_x86_64/VisualizerRls/bin/libqvisualizer.so'
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Sim-64
+# //  Version 2026.2_1 linux_x86_64 Jun 25 2026
+# //
+# // Unpublished work. Copyright 2026 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.ddr5_interface(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.ddr5_seq_pkg(fast)
+# Loading work.ddr5_agent_pkg(fast)
+# Loading work.ddr5_env_pkg(fast)
+# ** Warning: (vsim-PLI-3691) Expected a system task, not a system function '$sformatf'.
+#    Time: 0 ns  Iteration: 0  Region: /ddr5_env_pkg::ddr5_scoreboard::write/#ublk#250691143#91 File: ../env/ddr5_scoreboard.sv Line: 131
+# Loading work.ddr5_test_pkg(fast)
+# Loading work.ddr5_pkg(fast)
+# Loading work.ddr5_top_sv_unit(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.ddr5_top(fast)
+# Loading work.ddr5_interface(fast__2)
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum bit[1:0] ddr5_seq_pkg::write_preamble' from type 'bit[1:0]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Region: /ddr5_agent_pkg File: ../agents/ddr5_monitor.sv Line: 192
+# ** Warning: (vsim-8386) Illegal assignment to type 'enum bit[2:0] ddr5_seq_pkg::read_preamble' from type 'bit[2:0]': An enum variable may only be assigned the same enum typed variable or one of its values.
+#    Time: 0 ps  Iteration: 0  Region: /ddr5_agent_pkg File: ../agents/ddr5_monitor.sv Line: 264
+# Loading /opt/Siemens/questaone/2026.2/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
+# ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
+# Design was not optimized with -debug, pdi flow is disabled
+# +nopdi flow is activated
+#  wave file name = ./results/ddr5_tccd_plus4_test/qwave.db
+# 
+# *****************************************************************
+#    Using QuickLZ compression software.
+# *****************************************************************
+# 
+# Siemens software version 2026.2_1 (Build number 0)
+# Unpublished work. Copyright 2026 Siemens
+# qwavedb_dumpvars: Initiating qwavedb waveform capturing
+# 
+# 
+# qwavedb_dumpvars: Done initiating qwavedb waveform capturing
+# 
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO @ 0: reporter [RNTST] Running test ddr5_tccd_plus4_test...
+# 
+#### Factory Configuration (*)
+# 
+#   No instance or type overrides are registered with this factory
+# 
+# All types registered with the factory: 64 total
+# (types without type names will not be printed)
+# 
+#   Type Name
+#   ---------
+#   ddr5_agent
+#   ddr5_driver
+#   ddr5_env
+#   ddr5_monitor
+#   ddr5_mul_con_noncon_wr_rd_x8_seq
+#   ddr5_mul_con_noncon_wr_rd_x8_test
+#   ddr5_mul_conseq_wr_rd_db_seq
+#   ddr5_mul_conseq_wr_rd_db_test
+#   ddr5_mul_conseq_wr_rd_db_x8_seq
+#   ddr5_mul_conseq_wr_rd_db_x8_test
+#   ddr5_mul_nonconseq_wr_rd_db_seq
+#   ddr5_mul_nonconseq_wr_rd_db_test
+#   ddr5_mul_nonconseq_wr_rd_sb_x8_seq
+#   ddr5_mul_nonconseq_wr_rd_sb_x8_test
+#   ddr5_scoreboard
+#   ddr5_seq
+#   ddr5_seq_item
+#   ddr5_seq_x8
+#   ddr5_sequencer
+#   ddr5_tccd_plus1_test
+#   ddr5_tccd_plus2_test
+#   ddr5_tccd_plus3_test
+#   ddr5_tccd_plus4_test
+#   ddr5_tccd_plus5_test
+#   ddr5_test
+#   ddr5_test_x8
+#   questa_uvm_recorder
+# (*) Types with no associated type name will be printed as <unknown>
+# 
+####
+# 
+# UVM_INFO ../agents/ddr5_driver.sv(52) @ 0: uvm_test_top.envh.agt.drvh [DDR5_TCCD_CFG] Configured tCCD_S = 12 CK
+# UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+# --------------------------------------------------------------
+# Name                       Type                    Size  Value
+# --------------------------------------------------------------
+# uvm_test_top               ddr5_tccd_plus4_test    -     @471 
+#   envh                     ddr5_env                -     @484 
+#     agt                    ddr5_agent              -     @491 
+#       drvh                 ddr5_driver             -     @529 
+#         rsp_port           uvm_analysis_port       -     @544 
+#         seq_item_port      uvm_seq_item_pull_port  -     @536 
+#       monh                 ddr5_monitor            -     @514 
+#         ddr5_ap            uvm_analysis_port       -     @521 
+#       seqh                 ddr5_sequencer          -     @552 
+#         rsp_export         uvm_analysis_export     -     @559 
+#         seq_item_export    uvm_seq_item_pull_imp   -     @653 
+#         arbitration_queue  array                   0     -    
+#         lock_queue         array                   0     -    
+#         num_last_reqs      integral                32    'd1  
+#         num_last_rsps      integral                32    'd1  
+#     scrb                   ddr5_scoreboard         -     @498 
+#       sb_port              uvm_analysis_imp        -     @505 
+# --------------------------------------------------------------
+# 
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(38) @ 0: uvm_test_top.envh.agt.seqh@@seqh [SEQ] Starting different-BG consecutive WRITE/READ sequence
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 939: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00000000000000
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 205641: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000000000000
+# UVM_INFO ../agents/ddr5_monitor.sv(294) @ 205641: uvm_test_top.envh.agt.monh [DDR5_MON] ACTIVATE : BG=0 BA=0 ROW=0
+# UVM_INFO ../env/ddr5_scoreboard.sv(79) @ 205641: uvm_test_top.envh.scrb [DDR5_SB] ACTIVATE BG=0 BA=0 ROW=0
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 208771: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00000000011111
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 213153: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000000000000
+# UVM_INFO ../agents/ddr5_monitor.sv(99) @ 213153: uvm_test_top.envh.agt.monh [DDR5_MON] NOP COMMAND DETECTED
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 228803: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00000010100101
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 229429: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000000000000
+# UVM_INFO ../agents/ddr5_monitor.sv(166) @ 229429: uvm_test_top.envh.agt.monh [DDR5_MON] MRW : MRA=5 DATA=0
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 245079: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00000011000101
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 245705: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000000010111
+# UVM_INFO ../agents/ddr5_monitor.sv(166) @ 245705: uvm_test_top.envh.agt.monh [DDR5_MON] MRW : MRA=6 DATA=23
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 261355: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00000100000101
+# UVM_INFO ../agents/ddr5_driver.sv(197) @ 261981: uvm_test_top.envh.agt.drvh [DDR5_DRV] MR8 UPDATED WR_PRE=01 WR_POST=0
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 261981: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000000001000
+# UVM_INFO ../agents/ddr5_monitor.sv(158) @ 261981: uvm_test_top.envh.agt.monh [DDR5_MON] MR8 DETECTED : READ PREAMBLE MODE = 000
+# UVM_INFO ../agents/ddr5_monitor.sv(166) @ 261981: uvm_test_top.envh.agt.monh [DDR5_MON] MRW : MRA=8 DATA=8
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 277631: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00011001000101
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 278257: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000000000000
+# UVM_INFO ../agents/ddr5_monitor.sv(166) @ 278257: uvm_test_top.envh.agt.monh [DDR5_MON] MRW : MRA=50 DATA=0
+# UVM_INFO ../agents/ddr5_driver.sv(842) @ 292655: uvm_test_top.envh.agt.drvh [DRV] Received CMD=10 BG=3 BA=3 COL=896
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 293907: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00100001100101
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 294533: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000010001111
+# UVM_INFO ../agents/ddr5_monitor.sv(166) @ 294533: uvm_test_top.envh.agt.monh [DDR5_MON] MRW : MRA=67 DATA=143
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(62) @ 308931: uvm_test_top.envh.agt.seqh@@seqh [SEQ] Number of WRITE/READ transactions = 2
+# UVM_INFO ../agents/ddr5_driver.sv(842) @ 308931: uvm_test_top.envh.agt.drvh [DRV] Received CMD=2 BG=4 BA=2 COL=693
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 310183: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00010010010100
+# UVM_INFO ../agents/ddr5_driver.sv(234) @ 310809: uvm_test_top.envh.agt.drvh [DDR5_DRV] ACTIVATE BG=4 BA=2 ROW=237589
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 310809: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 11101000000001
+# UVM_INFO ../agents/ddr5_monitor.sv(294) @ 310809: uvm_test_top.envh.agt.monh [DDR5_MON] ACTIVATE : BG=4 BA=2 ROW=237589
+# UVM_INFO ../env/ddr5_scoreboard.sv(79) @ 310809: uvm_test_top.envh.scrb [DDR5_SB] ACTIVATE BG=4 BA=2 ROW=237589
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(98) @ 324581: uvm_test_top.envh.agt.seqh@@seqh [SEQ_ACT] ACTIVATE -> BG=4 BA=2 ROW=237589
+# UVM_INFO ../agents/ddr5_driver.sv(842) @ 324581: uvm_test_top.envh.agt.drvh [DRV] Received CMD=2 BG=5 BA=2 COL=637
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 325833: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00010110010100
+# UVM_INFO ../agents/ddr5_driver.sv(234) @ 326459: uvm_test_top.envh.agt.drvh [DDR5_DRV] ACTIVATE BG=5 BA=2 ROW=237589
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 326459: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 11101000000001
+# UVM_INFO ../agents/ddr5_monitor.sv(294) @ 326459: uvm_test_top.envh.agt.monh [DDR5_MON] ACTIVATE : BG=5 BA=2 ROW=237589
+# UVM_INFO ../env/ddr5_scoreboard.sv(79) @ 326459: uvm_test_top.envh.scrb [DDR5_SB] ACTIVATE BG=5 BA=2 ROW=237589
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(98) @ 340231: uvm_test_top.envh.agt.seqh@@seqh [SEQ_ACT] ACTIVATE -> BG=5 BA=2 ROW=237589
+# UVM_INFO ../agents/ddr5_driver.sv(842) @ 340231: uvm_test_top.envh.agt.drvh [DRV] Received CMD=3 BG=4 BA=2 COL=976
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 341483: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00010010001101
+# UVM_INFO ../agents/ddr5_driver.sv(665) @ 342109: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] CMD BG=4 BA=2 COL=976 TCCD=0 MODE=WR_NORMAL
+# UVM_INFO ../agents/ddr5_driver.sv(274) @ 342109: uvm_test_top.envh.agt.drvh [DRV_WR_TIMING] [$time=342000] WRITE PREAMBLE START WR_PRE=1
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 342109: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00010011110100
+# UVM_INFO ../agents/ddr5_monitor.sv(221) @ 342109: uvm_test_top.envh.agt.monh [MON_SEAMLESS] WRITE BG=4 PREV_BG=0 TCCD=0 BL16=1 SEAMLESS=0
+# UVM_INFO ../agents/ddr5_monitor.sv(231) @ 342109: uvm_test_top.envh.agt.monh [DDR5_MON] WRITE : BG=4 BA=2 COL=976
+# UVM_INFO ../agents/ddr5_monitor.sv(372) @ 342109: uvm_test_top.envh.agt.monh [WRITE_TIMING] WR_PRE=2 PRE_WAIT=18 DQ_WAIT=20
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(124) @ 342109: uvm_test_top.envh.agt.seqh@@seqh [SEQ_WR] WRITE1 -> BG=4 BA=2 ROW=237589 COL=976
+# UVM_INFO ../agents/ddr5_driver.sv(842) @ 342109: uvm_test_top.envh.agt.drvh [DRV] Received CMD=3 BG=5 BA=2 COL=992
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 348995: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00010110001101
+# UVM_INFO ../agents/ddr5_driver.sv(665) @ 349621: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] CMD BG=5 BA=2 COL=992 TCCD=12 MODE=WR_INTERAMBLE
+# UVM_INFO ../agents/ddr5_driver.sv(424) @ 349621: uvm_test_top.envh.agt.drvh [DDR5_DRV_TIMING] INTERAMBLE PRE=2 POST=0 TCCD=12 SKIP=0
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 349621: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00010011111000
+# UVM_INFO ../agents/ddr5_monitor.sv(221) @ 349621: uvm_test_top.envh.agt.monh [MON_SEAMLESS] WRITE BG=5 PREV_BG=4 TCCD=12 BL16=1 SEAMLESS=0
+# UVM_INFO ../agents/ddr5_monitor.sv(231) @ 349621: uvm_test_top.envh.agt.monh [DDR5_MON] WRITE : BG=5 BA=2 COL=992
+# UVM_INFO ../agents/ddr5_monitor.sv(372) @ 349621: uvm_test_top.envh.agt.monh [WRITE_TIMING] WR_PRE=2 PRE_WAIT=18 DQ_WAIT=20
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(124) @ 349621: uvm_test_top.envh.agt.seqh@@seqh [SEQ_WR] WRITE2 -> BG=5 BA=2 ROW=237589 COL=992
+# UVM_INFO ../agents/ddr5_driver.sv(842) @ 349621: uvm_test_top.envh.agt.drvh [DRV] Received CMD=5 BG=4 BA=2 COL=976
+# UVM_INFO ../agents/ddr5_monitor.sv(406) @ 353690: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[0] T : DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 354003: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[0]=42
+# UVM_INFO ../agents/ddr5_monitor.sv(426) @ 354003: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[1] C : DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(406) @ 354316: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[2] T : DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(306) @ 354316: uvm_test_top.envh.agt.drvh [DRV_WR_TIMING] [$time=354000] WRITE PREAMBLE END
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 354316: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[1]=115
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 354629: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[2]=200
+# UVM_INFO ../agents/ddr5_monitor.sv(453) @ 354629: uvm_test_top.envh.agt.monh [WRITE_DQ] DQ MONITOR THREAD ACTIVE - FIRST DQ SAMPLE POINT REACHED
+# UVM_INFO ../agents/ddr5_monitor.sv(426) @ 354629: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[3] C : DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(440) @ 354629: uvm_test_top.envh.agt.monh [WR_PRE] WRITE DQS PREAMBLE COMPLETE
+# UVM_INFO ../agents/ddr5_monitor.sv(467) @ 354629: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[0] DQ=42 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 354942: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[3]=183
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 354942: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[1] DQ=115 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 355255: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[4]=109
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 355255: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[2] DQ=200 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 355568: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[5]=183
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 355568: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[3] DQ=183 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 355881: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[6]=183
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 355881: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[4] DQ=109 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 356194: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[7]=99
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 356194: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[5] DQ=183 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 356507: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[8]=89
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 356507: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[6] DQ=183 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 356820: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[9]=213
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 356820: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[7] DQ=99 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 357133: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[10]=242
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 357133: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[8] DQ=89 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 357446: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[11]=185
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 357446: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[9] DQ=213 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 357759: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[12]=219
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 357759: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[10] DQ=242 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 358072: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[13]=72
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 358072: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[11] DQ=185 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 358385: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[14]=190
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 358385: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[12] DQ=219 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 358698: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] DQ[15]=58
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 358698: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[13] DQ=72 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 359011: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[14] DQ=190 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 359324: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[15] DQ=58 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(521) @ 359324: uvm_test_top.envh.agt.monh [WRITE_DQ] ALL 16 WRITE DQ BEATS CAPTURED
+# UVM_INFO ../agents/ddr5_monitor.sv(241) @ 359324: uvm_test_top.envh.agt.monh [MON_SB] Sending WRITE transaction to scoreboard
+# UVM_INFO ../env/ddr5_scoreboard.sv(110) @ 359324: uvm_test_top.envh.scrb [DDR5_SB] WRITE BG=4 BA=2 ROW=237589 COL=976 WR_PRE=1 SEAMLESS=0
+# UVM_INFO ../env/ddr5_scoreboard.sv(178) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_PRE] 2TCK WRITE PREAMBLE 0010 VALID
+# UVM_INFO ../env/ddr5_scoreboard.sv(372) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_DQS] WRITE PREAMBLE VALID + WRITE DQS VALID - STORING DATA
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=976 DATA=42
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=977 DATA=115
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=978 DATA=200
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=979 DATA=183
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=980 DATA=109
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=981 DATA=183
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=982 DATA=183
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=983 DATA=99
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=984 DATA=89
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=985 DATA=213
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=986 DATA=242
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=987 DATA=185
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=988 DATA=219
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=989 DATA=72
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=990 DATA=190
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 359324: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=4 BA=2 ROW=237589 COL=991 DATA=58
+# UVM_INFO ../agents/ddr5_driver.sv(605) @ 359950: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[0] -> WRITE[1] INTERAMBLE TCCD=12
+# UVM_INFO ../agents/ddr5_monitor.sv(406) @ 361202: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[0] T : DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 361515: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[0]=97
+# UVM_INFO ../agents/ddr5_monitor.sv(426) @ 361515: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[1] C : DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(406) @ 361828: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[2] T : DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 361828: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[1]=122
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 362141: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[2]=47
+# UVM_INFO ../agents/ddr5_monitor.sv(453) @ 362141: uvm_test_top.envh.agt.monh [WRITE_DQ] DQ MONITOR THREAD ACTIVE - FIRST DQ SAMPLE POINT REACHED
+# UVM_INFO ../agents/ddr5_monitor.sv(426) @ 362141: uvm_test_top.envh.agt.monh [WR_PRE] PREAMBLE[3] C : DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(440) @ 362141: uvm_test_top.envh.agt.monh [WR_PRE] WRITE DQS PREAMBLE COMPLETE
+# UVM_INFO ../agents/ddr5_monitor.sv(467) @ 362141: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[0] DQ=97 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 362454: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[3]=216
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 362454: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[1] DQ=122 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 362767: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[4]=239
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 362767: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[2] DQ=47 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 363080: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[5]=237
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 363080: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[3] DQ=216 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 363393: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[6]=35
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 363393: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[4] DQ=239 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 363706: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[7]=225
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 363706: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[5] DQ=237 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 364019: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[8]=35
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 364019: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[6] DQ=35 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 364332: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[9]=194
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 364332: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[7] DQ=225 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 364645: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[10]=183
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 364645: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[8] DQ=35 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 364958: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[11]=195
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 364958: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[9] DQ=194 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 365271: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[12]=198
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 365271: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[10] DQ=183 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 365584: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[13]=214
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 365584: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[11] DQ=195 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_driver.sv(518) @ 365897: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[14]=30
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 365897: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[12] DQ=198 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_driver.sv(530) @ 366210: uvm_test_top.envh.agt.drvh [DDR5_DRV] WRITE[1] DQ[15]=75
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 366210: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[13] DQ=214 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 366523: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[14] DQ=30 DQS_T=1 DQS_C=0
+# UVM_INFO ../agents/ddr5_monitor.sv(503) @ 366836: uvm_test_top.envh.agt.monh [WRITE_DQ] WRITE[15] DQ=75 DQS_T=0 DQS_C=1
+# UVM_INFO ../agents/ddr5_monitor.sv(521) @ 366836: uvm_test_top.envh.agt.monh [WRITE_DQ] ALL 16 WRITE DQ BEATS CAPTURED
+# UVM_INFO ../agents/ddr5_monitor.sv(241) @ 366836: uvm_test_top.envh.agt.monh [MON_SB] Sending WRITE transaction to scoreboard
+# UVM_INFO ../env/ddr5_scoreboard.sv(110) @ 366836: uvm_test_top.envh.scrb [DDR5_SB] WRITE BG=5 BA=2 ROW=237589 COL=992 WR_PRE=1 SEAMLESS=0
+# UVM_INFO ../env/ddr5_scoreboard.sv(372) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_DQS] WRITE PREAMBLE VALID + WRITE DQS VALID - STORING DATA
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=992 DATA=97
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=993 DATA=122
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=994 DATA=47
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=995 DATA=216
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=996 DATA=239
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=997 DATA=237
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=998 DATA=35
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=999 DATA=225
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1000 DATA=35
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1001 DATA=194
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1002 DATA=183
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1003 DATA=195
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1004 DATA=198
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1005 DATA=214
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1006 DATA=30
+# UVM_INFO ../env/ddr5_scoreboard.sv(386) @ 366836: uvm_test_top.envh.scrb [DDR5_SB_WRITE] STORE BG=5 BA=2 ROW=237589 COL=1007 DATA=75
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 369027: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00010010011101
+# UVM_INFO ../agents/ddr5_driver.sv(703) @ 369653: uvm_test_top.envh.agt.drvh [DDR5_DRV] READ CMD BG=4 BA=2 COL=976 RL=0
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 369653: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000011110100
+# UVM_INFO ../agents/ddr5_monitor.sv(266) @ 369653: uvm_test_top.envh.agt.monh [DDR5_MON] READ : BG=4 BA=2 COL=976
+# UVM_INFO ../agents/ddr5_monitor.sv(605) @ 369653: uvm_test_top.envh.agt.monh [READ_DEBUG] READ BG=4 BA=2 COL=976 PRE=1 TCL=22
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(155) @ 369653: uvm_test_top.envh.agt.seqh@@seqh [SEQ_RD] READ -> BG=4 BA=2 ROW=237589 COL=976
+# UVM_INFO ../agents/ddr5_driver.sv(842) @ 369653: uvm_test_top.envh.agt.drvh [DRV] Received CMD=5 BG=5 BA=2 COL=992
+# UVM_INFO ../agents/ddr5_monitor.sv(77) @ 374035: uvm_test_top.envh.agt.monh [DDR5_MON] CA1 Captured = 00010110011101
+# UVM_INFO ../agents/ddr5_driver.sv(703) @ 374661: uvm_test_top.envh.agt.drvh [DDR5_DRV] READ CMD BG=5 BA=2 COL=992 RL=0
+# UVM_INFO ../agents/ddr5_monitor.sv(87) @ 374661: uvm_test_top.envh.agt.monh [DDR5_MON] CA2 Captured = 00000011111000
+# UVM_INFO ../agents/ddr5_monitor.sv(266) @ 374661: uvm_test_top.envh.agt.monh [DDR5_MON] READ : BG=5 BA=2 COL=992
+# UVM_INFO ../agents/ddr5_monitor.sv(605) @ 374661: uvm_test_top.envh.agt.monh [READ_DEBUG] READ BG=5 BA=2 COL=992 PRE=1 TCL=22
+# UVM_INFO ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(155) @ 374661: uvm_test_top.envh.agt.seqh@@seqh [SEQ_RD] READ -> BG=5 BA=2 ROW=237589 COL=992
+# UVM_INFO ../agents/ddr5_monitor.sv(675) @ 383425: uvm_test_top.envh.agt.monh [DDR5_MON_RD_PRE] READ PRE[0] DQS_T=z DQS_C=z
+# UVM_INFO ../agents/ddr5_monitor.sv(675) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_RD_PRE] READ PRE[1] DQS_T=z DQS_C=z
+# UVM_INFO ../agents/ddr5_monitor.sv(781) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON] INVALID/MISSING READ RESPONSE - REPORTING X
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[0] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[1] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[2] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[3] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[4] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[5] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[6] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[7] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[8] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[9] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[10] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[11] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[12] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[13] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[14] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 383738: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[15] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(832) @ 383738: uvm_test_top.envh.agt.monh [READ_DEBUG] READ PREAMBLE CHECK AND RESPONSE CAPTURE COMPLETE
+# UVM_INFO ../agents/ddr5_monitor.sv(275) @ 383738: uvm_test_top.envh.agt.monh [MON_SB] Sending READ transaction to scoreboard
+# UVM_INFO ../env/ddr5_scoreboard.sv(431) @ 383738: uvm_test_top.envh.scrb [DDR5_SB] READ BG=4 BA=2 ROW=237589 COL=976
+# UVM_ERROR ../env/ddr5_scoreboard.sv(453) @ 383738: uvm_test_top.envh.scrb [DDR5_SB_DQS_PREAMBLE] READ DQS PREAMBLE NOT DETECTED AT SAMPLE=0 DQS_T=x DQS_C=x
+# UVM_ERROR ../env/ddr5_scoreboard.sv(492) @ 383738: uvm_test_top.envh.scrb [DDR5_SB_DQS_TOGGLE] READ DQS IS NOT TOGGLING
+# UVM_INFO ../env/ddr5_scoreboard.sv(539) @ 383738: uvm_test_top.envh.scrb [DDR5_SB] READ DATA COMPARISON SKIPPED DUE TO INVALID DQS RESPONSE
+# UVM_INFO ../agents/ddr5_monitor.sv(675) @ 388433: uvm_test_top.envh.agt.monh [DDR5_MON_RD_PRE] READ PRE[0] DQS_T=z DQS_C=z
+# UVM_INFO ../agents/ddr5_monitor.sv(675) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_RD_PRE] READ PRE[1] DQS_T=z DQS_C=z
+# UVM_INFO ../agents/ddr5_monitor.sv(781) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON] INVALID/MISSING READ RESPONSE - REPORTING X
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[0] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[1] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[2] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[3] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[4] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[5] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[6] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[7] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[8] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[9] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[10] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[11] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[12] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[13] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[14] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(821) @ 388746: uvm_test_top.envh.agt.monh [DDR5_MON_READ_DQ] READ[15] DQS_T=x DQS_C=x DQ=x
+# UVM_INFO ../agents/ddr5_monitor.sv(832) @ 388746: uvm_test_top.envh.agt.monh [READ_DEBUG] READ PREAMBLE CHECK AND RESPONSE CAPTURE COMPLETE
+# UVM_INFO ../agents/ddr5_monitor.sv(275) @ 388746: uvm_test_top.envh.agt.monh [MON_SB] Sending READ transaction to scoreboard
+# UVM_INFO ../env/ddr5_scoreboard.sv(431) @ 388746: uvm_test_top.envh.scrb [DDR5_SB] READ BG=5 BA=2 ROW=237589 COL=992
+# UVM_ERROR ../env/ddr5_scoreboard.sv(453) @ 388746: uvm_test_top.envh.scrb [DDR5_SB_DQS_PREAMBLE] READ DQS PREAMBLE NOT DETECTED AT SAMPLE=0 DQS_T=x DQS_C=x
+# UVM_ERROR ../env/ddr5_scoreboard.sv(492) @ 388746: uvm_test_top.envh.scrb [DDR5_SB_DQS_TOGGLE] READ DQS IS NOT TOGGLING
+# UVM_INFO ../env/ddr5_scoreboard.sv(539) @ 388746: uvm_test_top.envh.scrb [DDR5_SB] READ DATA COMPARISON SKIPPED DUE TO INVALID DQS RESPONSE
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 1374661: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  242
+# UVM_WARNING :    0
+# UVM_ERROR :    4
+# UVM_FATAL :    0
+# ** Report counts by id
+# [DDR5_DRV]    40
+# [DDR5_DRV_TIMING]     1
+# [DDR5_MON]    42
+# [DDR5_MON_RD_PRE]     4
+# [DDR5_MON_READ_DQ]    32
+# [DDR5_SB]     9
+# [DDR5_SB_DQS]     2
+# [DDR5_SB_DQS_PREAMBLE]     2
+# [DDR5_SB_DQS_TOGGLE]     2
+# [DDR5_SB_PRE]     1
+# [DDR5_SB_WRITE]    32
+# [DDR5_TCCD_CFG]     1
+# [DRV]     7
+# [DRV_WR_TIMING]     2
+# [MON_SB]     4
+# [MON_SEAMLESS]     2
+# [READ_DEBUG]     4
+# [RNTST]     1
+# [SEQ]     2
+# [SEQ_ACT]     2
+# [SEQ_RD]     2
+# [SEQ_WR]     2
+# [TEST_DONE]     1
+# [UVMTOP]     1
+# [WRITE_DQ]    36
+# [WRITE_TIMING]     2
+# [WR_PRE]    10
+# ** Note: $finish    : /opt/Siemens/questaone/2026.2/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 1374661 ps  Iteration: 54  Instance: /ddr5_top
+# Break in Task uvm_pkg/uvm_root::run_test at /opt/Siemens/questaone/2026.2/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at /opt/Siemens/questaone/2026.2/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# qwavedb_dumpvars : Simulation ending at [0 1374661] 0
+# 
+# 
+# vsim: End time: 12:26:17 on Oct 15,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 3

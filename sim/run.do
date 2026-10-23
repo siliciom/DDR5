@@ -7,25 +7,143 @@ set run_opts ""
 # ==========================================
 # Test Specific Switches
 # ==========================================
- 
+# Test Specific Switches
+# ==========================================
+# ==========================================
+# Test-Specific Compilation Options
+# ==========================================
+
 if {$testname == "ddr5_test"} {
- 
-# set comp_opts "+define+INJECTING_TIMING_ERROR"
-# set run_opts "+ERR_TO_WARN"
- 
+
+    # set comp_opts "+define+INJECTING_TIMING_ERROR"
+    # set run_opts "+ERR_TO_WARN"
+
+
+} elseif {$testname == "ddr5_tFAW_bank_1600_test"} {
+
+} elseif {$testname == "ddr5_tFAW_4bank_1600_test"} {
+
+} elseif {$testname == "ddr5_mul_conseq_wr_rd_db_x8_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_mul_nonconseq_wr_rd_db_test"} {
+
+} elseif {$testname == "ddr5_mul_nonconseq_wr_rd_db_x8_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
 } elseif {$testname == "ddr5_test_x8"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_mul_nonconseq_wr_rd_sb_x8_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_mul_con_noncon_wr_rd_x8_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_conseq_tccd1_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_conseq_tccd2_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_conseq_tccd3_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_conseq_tccd4_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_conseq_tccd5_test"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_2act_without_pre_sb_test_x8"} {
+
+    set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_wr_rd_without_act_test_x8"} {
+
+    set comp_opts "+define+DDR_X8"
+} elseif {$testname == "ddr5_write_AP_test_x8"} {
  
     set comp_opts "+define+DDR_X8"
  
+} elseif {$testname == "ddr5_read_AP_test_x8"} {
+ 
+    set comp_opts "+define+DDR_X8"
+ 
+} elseif {$testname == "ddr5_write_DM_test_x8"} {
+ 
+    set comp_opts "+define+DDR_X8"
+ 
+} elseif {$testname == "ddr5_write_DM_test_x16"} {
+ 
+    set comp_opts "+define+DDR_X16"
+ 
+} elseif {$testname == "ddr5_wr_rd_test_x4"} {
+ 
+    set comp_opts "+define+DDR_X4"
+ 
+} elseif {$testname == "ddr5_wr_rd_test_x16"} {
+ 
+    set comp_opts "+define+DDR_X16"
+ 
+} elseif {$testname == "ddr5_wr_rd_test_x8"} {
+ 
+    set comp_opts "+define+DDR_X8"
+ 
+
 }
+
+
+
 # ==========================================
 # Valid Tests
 # ==========================================
+
 transcript quietly
+
 set valid_tests {
     ddr5_test
     ddr5_test_x8
-    }
+    ddr5_mul_conseq_wr_rd_db_x8_test
+    ddr5_mul_nonconseq_wr_rd_db_test
+    ddr5_mul_nonconseq_wr_rd_db_x8_test
+    ddr5_mul_nonconseq_wr_rd_sb_x8_test
+    ddr5_mul_con_noncon_wr_rd_x8_test
+    ddr5_2act_without_pre_sb_test_x8
+    ddr5_wr_rd_without_act_test_x8
+    ddr5_conseq_tccd1_test
+    ddr5_conseq_tccd2_test
+    ddr5_conseq_tccd3_test
+    ddr5_conseq_tccd4_test
+    ddr5_conseq_tccd5_test
+
+    ddr5_tFAW_4bank_1600_test
+    ddr5_tFAW_bank_1600_test
+
+     ddr5_write_AP_test_x8
+     ddr5_read_AP_test_x8
+     ddr5_write_DM_test_x8
+     ddr5_write_DM_test_x16
+     ddr5_wr_rd_test_x16
+     ddr5_wr_rd_test_x8
+     ddr5_wr_rd_test_x4
+
+
+
+
+
+
+}
 # ==========================================
 # Check whether test is valid
 # ==========================================

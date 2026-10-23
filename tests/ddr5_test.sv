@@ -9,6 +9,7 @@ class ddr5_test extends uvm_test;
   endfunction
 //   build phase
   function void build_phase(uvm_phase phase);
+	  uvm_factory factory = uvm_factory::get();
     super.build_phase(phase);
     // Get interface from top TB
     if(!uvm_config_db #(virtual ddr5_interface)::get(this, "", "ddr5_interface", vif))
@@ -20,6 +21,7 @@ class ddr5_test extends uvm_test;
     
 // Create environment
     envh = ddr5_env::type_id::create("envh",this);
+    factory.print();
 endfunction
  
 //   stsrt of simulation

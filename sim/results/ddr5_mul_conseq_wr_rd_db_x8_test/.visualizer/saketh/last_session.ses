@@ -1,0 +1,41 @@
+<!-- THIS IS TOOL GENERATED SESSION FILE. PLEASE DO NOT MODIFY THIS -->
+<!DOCTYPE visualizer_session>
+<session skip_do_file="0" version="3">
+ <app argc="5">
+  <argv value="visualizer" pos="0"/>
+  <argv value="+wavefile+/home/saketh/consective/DDR5/sim/results/ddr5_mul_conseq_wr_rd_db_x8_test/qwave.db" pos="1"/>
+  <argv value="+viswave" pos="2"/>
+  <argv value="+read_viswave_info" pos="3"/>
+  <argv value="+genDesignOMFromWave" pos="4"/>
+ </app>
+ <window_config>
+  <expanded_mode enabled="false"/>
+  <dockareas left="589" right="669" top="0" bottom="146"/>
+  <taborder left="structure+" right="variables+" bottom="transcript+"/>
+  <activetab left="structure" right="variables" bottom="transcript"/>
+  <window dock_location="left" windowstate="" type="structure" geometry="AdnQywADAAAAAAAAAAAAPAAAAkwAAAHQAAAAAAAAADwAAAJMAAAB0AAAAAAAAAAABQAAAAAAAAAAPAAAAkwAAAHQ" visible="1" undocked="0"/>
+  <window dock_location="right" windowstate="AAAA/wAAAAD9AAAAAAAAAp0AAAFcAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAQAAAAaAGYAaQBsAHQAZQByAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAABYAdwBhAHYAZQBUAG8AbwBsAEIAYQByAQAAAGv/////AAAAAAAAAAAAAAAYAGYAbwByAGMAZQBUAG8AbwBsAEIAYQByAQAAAQL/////AAAAAAAAAAAAAAAcAEYAaQBsAHQAZQByAFQAbwBvAGwAQgBhAHIAMgEAAAFG/////wAAAAAAAAAA" type="variables" geometry="AdnQywADAAAAAAJjAAAAPAAABP8AAAHQAAACYwAAADwAAAT/AAAB0AAAAAAAAAAABQAAAAJjAAAAPAAABP8AAAHQ" visible="1" undocked="0"/>
+  <window dock_location="bottom" windowstate="" type="transcript" geometry="AdnQywADAAAAAAAAAAAB3AAABP8AAAJtAAAAAAAAAdwAAAT/AAACbQAAAAAAAAAABQAAAAAAAAAB3AAABP8AAAJt" visible="1" undocked="0"/>
+  <window dock_location="right" windowstate="AAAA/wAAAAD9AAAAAwAAAAAAAAJNAAABlfwCAAAAAfsAAAASAHMAdAByAHUAYwB0AHUAcgBlAQAAADwAAAGVAAAAWwD///8AAAABAAACnQAAAZX8AgAAAAH7AAAAEgB2AGEAcgBpAGEAYgBsAGUAcwEAAAA8AAABlQAAAFsA////AAAAAwAABQAAAACS/AEAAAAB/AAAAAAAAAUAAAAAYgD////6AAAAAAEAAAAC+wAAABQAdAByAGEAbgBzAGMAcgBpAHAAdAEAAAAA/////wAAAGIA////+wAAACgAVwBhAHYAZQAwAF8AdwBhAHYAZQBGAG8AcgBtAFcAaQBuAEMAbABzAgAAAAAAAAAXAAAFAAAAAokAAAAAAAABlQAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAAEAAAAKABNAGEAaQBuAF8ASABpAHMAdABvAHIAeQBfAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAACQAUgBUAEwAXwBXAGkAbgBkAG8AdwBfAFQAbwBvAGwAQgBhAHIBAAAAlv////8AAAAAAAAAAAAAADYARwBJAEQAXwBTAHIAYwBWAGkAZQB3AF8ATwBwAHQAaQBvAG4AcwBfAFQAbwBvAGwAQgBhAHIBAAAA2v////8AAAAAAAAAAAAAAEYARwBJAEQAXwBNAGEAaQBuAFMAcgBjAFcAaQBuAGQAbwB3AF8AVABpAG0AZQBTAGMAYQBsAGUAXwBUAG8AbwBsAEIAYQByAQAAAQj/////AAAAAAAAAAA=" type="rtl" geometry="AdnQywADAAAAAAAAAAAAFAAABP8AAAKdAAAAAAAAABQAAAT/AAACnQAAAAAAAAAABQAAAAAAAAAAFAAABP8AAAKd" visible="1" undocked="0"/>
+  <window dock_location="bottom" windowstate="" type="wave" geometry="" visible="0" undocked="1"/>
+ </window_config>
+ <wave_file_mgr>
+  <waveFile waveType="0" fileName="/home/saketh/consective/DDR5/sim/results/ddr5_mul_conseq_wr_rd_db_x8_test/qwave.db" tagName="F0"/>
+ </wave_file_mgr>
+ <gui>
+  <main_window visible="1"/>
+  <watchTower_cur_setting curRadix="2" curDisplayTimeUnit="-12" curDisplayTimeUnitStr="1ps" curActiveWaveFile="F0" customDisplayTimeUnitListStr="">
+   <curTime hightime="0" lowtime="358854"/>
+  </watchTower_cur_setting>
+  <structure selection="ddr5_top.vif"/>
+  <variables CA="0" UPF="0"/>
+  <transcript/>
+  <custom_menus>
+   <tcl_commands/>
+  </custom_menus>
+ </gui>
+ <wave_mgr sync_time_range="0"/>
+ <mem_mgr/>
+ <windows/>
+ <dut selection="ddr5_top.vif"/>
+</session>

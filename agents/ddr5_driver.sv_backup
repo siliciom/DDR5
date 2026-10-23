@@ -1,0 +1,1818 @@
+class ddr5_driver extends uvm_driver #(ddr5_seq_item);
+iiiii
+
+hhh 
+  `uvm_component_utils(ddr5_driver)
+ 
+  virtual ddr5_interface vif;
+
+  ddr5_seq_item seq;
+ 
+  // READ/WRITE timing state
+
+  bit have_last_rw;
+ggjgyfyt
+  rand_cmd last_rw_cmd;
+
+  bit [`BG_WIDTH-6:0] last_rw_bg;
+
+  bit last_write_non_partial;
+
+  int cycles_since_last_rw;
+ 
+  localparam int CMD_CYCLES = 3;
+ 
+  // WRITE configuration
+
+  bit [1:0] current_wr_preamble;
+
+  bit current_wr_postamble;
+ 
+  // Active WRITE data threads
+
+  int outstanding_writes;
+ 
+  // A BL16 different-BG WRITE is seamless only when the command
+
+  // spacing is exactly 8 CK.  If TCCD_S is changed to 9/10/... for
+
+  // gap testing, the operation must NOT be treated as seamless.
+
+  localparam int SEAMLESS_TCCD = 8;  // BL16 / 2 = 8 CK
+ 
+  // Each asynchronous WRITE data thread gets an ID.  These associative
+
+  // arrays let an earlier WRITE know exactly what the immediately next
+
+  // WRITE is doing, without relying on outstanding_writes alone.
+
+  int write_id_counter;
+
+  int write_tccd_by_id[int];
+
+  bit write_seamless_by_id[int];
+
+  bit write_gap_by_id[int];
+ 
+  bit [7:0] mr_cfg [bit [7:0]];
+ 
+  function new(string name = "ddr5_driver", uvm_component parent = null);
+
+    super.new(name,parent);
+
+  endfunction
+ 
+
+
+  function void build_phase(uvm_phase phase);
+
+    super.build_phase(phase);
+
+    if(!uvm_config_db#(virtual ddr5_interface)::get(this,"","ddr5_interface",vif))
+
+      `uvm_fatal("DRV","NO INTERFACE")
+
+  endfunction
+ 
+
+
+  task run_phase(uvm_phase phase);
+
+    have_last_rw = 1'b0;
+
+    last_rw_cmd = NOP;
+
+    last_rw_bg = '0;
+
+    last_write_non_partial = 1'b1;
+
+    cycles_since_last_rw = 0;
+
+    outstanding_writes = 0;
+
+    write_id_counter = 0;
+
+    write_tccd_by_id.delete();
+
+    write_seamless_by_id.delete();
+
+    write_gap_by_id.delete();
+ 
+    seq_item_port.get_next_item(seq);
+
+    ddr5_initialize();
+
+    drive_tx(seq);
+
+    seq_item_port.item_done();
+ 
+    forever begin
+
+      seq_item_port.get_next_item(seq);
+
+      drive_tx(seq);
+
+      seq_item_port.item_done();
+
+    end
+
+  endtask
+ 
+  //============================================================
+
+  // BUS INITIALIZATION
+
+  //============================================================
+ 
+  task bus_init();
+
+    @(vif.ddr5_drv_cb_t);
+
+    vif.ddr5_drv_cb_t.ca <= 1'bz;
+
+    vif.ddr5_dq_drv_cb_t.dq <= 'z;
+
+    vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b0;
+
+    vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b0;
+
+    vif.ddr5_dq_drv_cb_t.dm_n <= 1'b1;
+
+  endtask
+ 
+  //============================================================
+
+  // DDR5 INITIALIZATION
+
+  //============================================================
+ 
+  task ddr5_initialize();
+
+    bus_init();
+
+    reset_sequence();
+
+    nop();
+
+    configure_mode_registers();
+
+  endtask
+ 
+  //============================================================
+
+  // RESET
+
+  //============================================================
+ 
+  task reset_sequence();
+
+    vif.ddr5_drv_cb_t.reset_n <= 1'b0;
+
+    vif.ddr5_drv_cb_t.cs_n <= 1'b0;
+
+    vif.ddr5_drv_cb_t.ca <= 1'bz;
+ 
+    repeat(`TINIT1) @(vif.ddr5_drv_cb_t);
+ 
+    vif.ddr5_drv_cb_t.reset_n <= 1'b1;
+ 
+    repeat(`TINIT3) @(vif.ddr5_drv_cb_t);
+ 
+    vif.ddr5_drv_cb_t.cs_n <= 1'b1;
+
+    vif.ddr5_drv_cb_t.ca <= 1'bz;
+ 
+    repeat(`TINIT4) @(vif.ddr5_drv_cb_t);
+
+  endtask
+ 
+  //============================================================
+
+  // MODE REGISTER CONFIGURATION
+
+  //============================================================
+ 
+  task configure_mode_registers();
+
+    mr_cfg[8'd0] = {1'b0,seq.rl,seq.bl};
+
+    mr_cfg[8'd5] = {2'b00,seq.dm_cfg,5'b00000};
+
+    mr_cfg[8'd6] = {seq.trp_cfg,seq.wr_recovery};
+
+    mr_cfg[8'd8] = {seq.wr_postamble,seq.rd_postamble,1'b0,seq.wr_preamble,seq.rd_preamble};
+
+    mr_cfg[8'd50] = {7'b0000000,seq.crc_en};
+ 
+    foreach(mr_cfg[mra])
+
+      mrw(mra,mr_cfg[mra]);
+
+  endtask
+ 
+  //============================================================
+
+  // COMMAND DRIVE
+
+  //============================================================
+ 
+  task drive_cmd(input bit cs,input bit [13:0] ca);
+
+    @(vif.ddr5_drv_cb_t);
+
+    vif.ddr5_drv_cb_t.cs_n <= cs;
+
+    vif.ddr5_drv_cb_t.ca <= ca;
+
+  endtask
+ 
+  task release_ca();
+
+    @(vif.ddr5_drv_cb_t);
+
+    vif.ddr5_drv_cb_t.ca <= 1'bz;
+
+    vif.ddr5_drv_cb_t.cs_n <= 1'b1;
+
+  endtask
+ 
+  //============================================================
+
+  // NOP
+
+  //============================================================
+ 
+  task nop();
+
+    bit [13:0] ca;
+ 
+    ca = {9'b0,5'b11111};
+ 
+    drive_cmd(1'b0,ca);
+
+    repeat(`TINIT5) @(vif.ddr5_drv_cb_t);
+ 
+    vif.ddr5_drv_cb_t.ca <= 1'bz;
+
+  endtask
+ 
+  //============================================================
+
+  // MRW
+
+  //============================================================
+ 
+  task mrw(input bit [7:0] mra,input bit [7:0] mr_opcode);
+
+    bit [13:0] ca1,ca2;
+ 
+    ca1 = {1'b0,mra,5'b00101};
+
+    ca2 = {6'b0,mr_opcode};
+ 
+    drive_cmd(1'b0,ca1);
+
+    drive_cmd(1'b1,ca2);
+
+    release_ca();
+ 
+    if(mra == 8'd8) begin
+
+      current_wr_preamble = mr_opcode[4:3];
+
+      current_wr_postamble = mr_opcode[7];
+
+      `uvm_info("DDR5_DRV",$sformatf("MR8 UPDATED WR_PRE=%b WR_POST=%b",current_wr_preamble,current_wr_postamble),UVM_LOW)
+
+    end
+ 
+    repeat(`TMRD) @(vif.ddr5_drv_cb_t);
+
+  endtask
+ 
+  //============================================================
+
+  // MRR
+
+  //============================================================
+ 
+  task mrr(ddr5_seq_item seq);
+
+    bit [13:0] ca1,ca2;
+ 
+    ca1 = {1'b0,seq.mra,5'b10101};
+
+    ca2 = '0;
+ 
+    drive_cmd(1'b0,ca1);
+
+    drive_cmd(1'b1,ca2);
+
+    release_ca();
+
+  endtask
+ 
+  //============================================================
+
+  // ACTIVATE
+
+  //============================================================
+ 
+  task activate(ddr5_seq_item seq);
+
+    bit [13:0] ca1,ca2;
+ 
+    ca1 = {3'b000,seq.bg,seq.ba,seq.row[3:0],2'b00};
+
+    ca2 = seq.row[17:4];
+ 
+    drive_cmd(1'b0,ca1);
+
+    drive_cmd(1'b1,ca2);
+
+    release_ca();
+ 
+    `uvm_info("DDR5_DRV",$sformatf("ACTIVATE BG=%0d BA=%0d ROW=%0d",seq.bg,seq.ba,seq.row),UVM_LOW)
+
+  endtask
+ 
+  //============================================================
+
+  // DQS - 1CK STATIC
+
+  //============================================================
+ 
+  task drive_1ck_zero();
+
+    @(vif.ddr5_drv_cb_t);
+
+    vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b0;
+
+    vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b1;
+ 
+    @(vif.ddr5_drv_cb_c);
+
+    vif.ddr5_wr_drv_cb_c.dqs_t <= 1'b0;
+
+    vif.ddr5_wr_drv_cb_c.dqs_c <= 1'b1;
+
+  endtask
+ 
+  //============================================================
+
+  // DQS - 1CK TOGGLE
+
+  //============================================================
+ 
+  task drive_1ck_onezero();
+
+    @(vif.ddr5_drv_cb_t);
+
+    vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b1;
+
+    vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b0;
+ 
+    @(vif.ddr5_drv_cb_c);
+
+    vif.ddr5_wr_drv_cb_c.dqs_t <= 1'b0;
+
+    vif.ddr5_wr_drv_cb_c.dqs_c <= 1'b1;
+
+  endtask
+ 
+  //============================================================
+
+  // WRITE PREAMBLE
+
+  //============================================================
+ 
+  task drive_write_preamble(input bit [1:0] wr_preamble);
+ 
+    `uvm_info("DRV_WR_TIMING",$sformatf("[$time=%0t] WRITE PREAMBLE START WR_PRE=%0d",$time,wr_preamble),UVM_LOW)
+ 
+    case(wr_preamble)
+ 
+      WR_PRE_2TCK: begin
+
+        repeat(`TCWL-3) @(vif.ddr5_drv_cb_t);
+
+        drive_1ck_zero();
+
+        drive_1ck_onezero();
+
+      end
+ 
+      WR_PRE_3TCK: begin
+
+        repeat(`TCWL-4) @(vif.ddr5_drv_cb_t);
+
+        repeat(2) drive_1ck_zero();
+
+        drive_1ck_onezero();
+
+      end
+ 
+      WR_PRE_4TCK: begin
+
+        repeat(`TCWL-5) @(vif.ddr5_drv_cb_t);
+
+        repeat(2) drive_1ck_zero();
+
+        repeat(2) drive_1ck_onezero();
+
+      end
+ 
+      default: begin
+
+        repeat(`TCWL-3) @(vif.ddr5_drv_cb_t);
+
+        drive_1ck_zero();
+
+        drive_1ck_onezero();
+
+      end
+ 
+    endcase
+ 
+    `uvm_info("DRV_WR_TIMING",$sformatf("[$time=%0t] WRITE PREAMBLE END",$time),UVM_LOW)
+ 
+  endtask
+ 
+  //============================================================
+
+  // CHECK NON-PARTIAL WRITE
+
+  //============================================================
+ 
+  function automatic bit is_non_partial_write(ddr5_seq_item wr_seq);
+ 
+    for(int i=0;i<16;i++) begin
+
+      if(wr_seq.dm_burst[i] !== 1'b1)
+
+        return 1'b0;
+
+    end
+ 
+    return 1'b1;
+ 
+  endfunction
+ 
+  //============================================================
+
+  // CHECK CONSECUTIVE DIFFERENT-BG BL16 WRITE
+
+  //============================================================
+ 
+  function automatic bit is_consecutive_diff_bg_write(
+
+    ddr5_seq_item wr_seq
+
+  );
+ 
+    if(!have_last_rw)
+
+      return 1'b0;
+ 
+    if(last_rw_cmd != WRITE)
+
+      return 1'b0;
+ 
+    if(wr_seq.bl != BL16)
+
+      return 1'b0;
+ 
+    if(!last_write_non_partial)
+
+      return 1'b0;
+ 
+    if(!is_non_partial_write(wr_seq))
+
+      return 1'b0;
+ 
+    if(last_rw_bg == wr_seq.bg)
+
+      return 1'b0;
+ 
+    return 1'b1;
+ 
+  endfunction
+ 
+  //============================================================
+
+  // CHECK SEAMLESS WRITE
+
+  //============================================================
+ 
+  function automatic bit is_seamless_write(
+
+    ddr5_seq_item wr_seq,
+
+    input int tccd
+
+  );
+ 
+    if(!is_consecutive_diff_bg_write(wr_seq))
+
+      return 1'b0;
+ 
+    // BL16 + different BG is seamless ONLY at the 8-CK spacing.
+
+    if(tccd != SEAMLESS_TCCD)
+
+      return 1'b0;
+ 
+    return 1'b1;
+ 
+  endfunction
+ 
+  //============================================================
+
+  // CHECK CONSECUTIVE WRITE WITH GAP
+
+  //============================================================
+ 
+  function automatic bit is_gap_write(
+
+    ddr5_seq_item wr_seq,
+
+    input int tccd
+
+  );
+ 
+    if(!is_consecutive_diff_bg_write(wr_seq))
+
+      return 1'b0;
+ 
+    // tCCD > 8 CK means consecutive WRITE bursts with an interamble.
+
+    // The second preamble is retained/shortened; do not force DQS off.
+
+    if(tccd <= SEAMLESS_TCCD)
+
+      return 1'b0;
+ 
+    return 1'b1;
+ 
+  endfunction
+ 
+  //============================================================
+
+  // WRITE PREAMBLE LENGTH
+
+  //============================================================
+ 
+  function automatic int get_wr_preamble_ck(input bit [1:0] wr_pre);
+
+    case(wr_pre)
+
+      WR_PRE_2TCK: return 2;
+
+      WR_PRE_3TCK: return 3;
+
+      WR_PRE_4TCK: return 4;
+
+      default:     return 2;
+
+    endcase
+
+  endfunction
+ 
+  //============================================================
+
+  // WRITE INTERAMBLE PREAMBLE
+
+  //============================================================
+
+  //
+
+  // For consecutive BL16 WRITE-to-WRITE operations with tCCD > 8,
+
+  // the first WRITE keeps its programmed postamble. The second
+
+  // WRITE preamble is shortened only when the JEDEC interamble
+
+  // diagram calls for it.
+
+  //
+
+  // skip_ck is NOT simply (tCCD - 8). It depends on tCCD and the
+
+  // programmed PRE/POST combination.
+
+  //
+
+  // JESD79-5 4.5.2, Figures 22-26.
+
+  //============================================================
+ 
+  function automatic int get_interamble_skip_ck(
+
+    input bit [1:0] wr_preamble,
+
+    input bit       wr_post,
+
+    input int       tccd
+
+  );
+
+    int delta;
+ 
+    delta = tccd - SEAMLESS_TCCD;
+ 
+    if(delta <= 0)
+
+      return 0;
+ 
+    //==========================================================
+
+    // Figure 22 : tCCD = Min + 1
+
+    //==========================================================
+
+    if(delta == 1) begin
+
+      // Figure 22 does not call for a shortened preamble.
+
+      return 0;
+
+    end
+ 
+    //==========================================================
+
+    // Figure 23 : tCCD = Min + 2
+
+    //==========================================================
+
+    if(delta == 2) begin
+
+      if(wr_post == WR_PSTBLE_0_5TCK) begin
+
+        case(wr_preamble)
+
+          WR_PRE_2TCK: return 0; // touches
+
+          WR_PRE_3TCK: return 1; // overlap by 1
+
+          WR_PRE_4TCK: return 2; // overlap by 2
+
+          default:     return 0;
+
+        endcase
+
+      end
+
+      else begin
+
+        // Post = 1.5 CK
+
+        case(wr_preamble)
+
+          WR_PRE_2TCK: return 1; // JEDEC allows shortening by 1 or 2
+
+          WR_PRE_3TCK: return 2; // JEDEC allows shortening by 1 or 2
+
+          WR_PRE_4TCK: begin
+
+            // JEDEC marks this combination TBD.
+
+            `uvm_warning("DDR5_INTERAMBLE_TBD",
+
+              "tCCD=Min+2, Post=1.5, Pre=4 is TBD in JESD79-5; using skip=2 for TB")
+
+            return 2;
+
+          end
+
+          default: return 0;
+
+        endcase
+
+      end
+
+    end
+ 
+    //==========================================================
+
+    // Figure 24 : tCCD = Min + 3
+
+    //==========================================================
+
+    if(delta == 3) begin
+
+      if(wr_post == WR_PSTBLE_0_5TCK) begin
+
+        case(wr_preamble)
+
+          WR_PRE_2TCK: return 0; // touches
+
+          WR_PRE_3TCK: return 1; // overlap by 1
+
+          WR_PRE_4TCK: return 2; // overlap by 2
+
+          default:     return 0;
+
+        endcase
+
+      end
+
+      else begin
+
+        // Post = 1.5 CK
+
+        case(wr_preamble)
+
+          WR_PRE_2TCK: return 0; // touches
+
+          WR_PRE_3TCK: return 1; // overlap by 1
+
+          WR_PRE_4TCK: return 2; // overlap by 2
+
+          default:     return 0;
+
+        endcase
+
+      end
+
+    end
+ 
+    //==========================================================
+
+    // Figure 25 : tCCD = Min + 4
+
+    //==========================================================
+
+    if(delta == 4) begin
+
+      if(wr_post == WR_PSTBLE_0_5TCK) begin
+
+        // Pre=3 and Pre=4 touch the preamble.
+
+        return 0;
+
+      end
+
+      else begin
+
+        // Post = 1.5 CK
+
+        case(wr_preamble)
+
+          WR_PRE_2TCK: return 0; // touches
+
+          WR_PRE_3TCK: return 0; // touches
+
+          WR_PRE_4TCK: return 1; // overlap by 1
+
+          default:     return 0;
+
+        endcase
+
+      end
+
+    end
+ 
+    //==========================================================
+
+    // Figure 26 : tCCD = Min + 5
+
+    //==========================================================
+
+    if(delta == 5) begin
+
+      // Post=1.5, Pre=3/4: postamble touches preamble.
+
+      return 0;
+
+    end
+ 
+    // For larger gaps there is no Figure-22..26 shortening rule.
+
+    return 0;
+
+  endfunction
+ 
+  task drive_write_interamble_preamble(
+
+    input bit [1:0] wr_preamble,
+
+    input bit       wr_post,
+
+    input int       tccd
+
+  );
+
+    int pre_ck;
+
+    int skip_ck;
+ 
+    pre_ck  = get_wr_preamble_ck(wr_preamble);
+
+    skip_ck = get_interamble_skip_ck(wr_preamble,wr_post,tccd);
+ 
+    if(skip_ck < 0)
+
+      skip_ck = 0;
+
+    if(skip_ck > pre_ck)
+
+      skip_ck = pre_ck;
+ 
+    `uvm_info("DDR5_DRV_TIMING",
+
+      $sformatf("[$time=%0t] INTERAMBLE PRE=%0d PRE_CK=%0d POST=%0b TCCD=%0d SKIP_CK=%0d",
+
+                $time,wr_preamble,pre_ck,wr_post,tccd,skip_ck),UVM_LOW)
+ 
+    case(wr_preamble)
+ 
+      WR_PRE_2TCK: begin
+
+        case(skip_ck)
+
+          0: drive_write_preamble(wr_preamble);
+
+          1: begin
+
+            repeat(`TCWL-2) @(vif.ddr5_drv_cb_t);
+
+            drive_1ck_onezero();
+
+          end
+
+          default: drive_write_preamble(wr_preamble);
+
+        endcase
+
+      end
+ 
+      WR_PRE_3TCK: begin
+
+        case(skip_ck)
+
+          0: drive_write_preamble(wr_preamble);
+
+          1: begin
+
+            repeat(`TCWL-3) @(vif.ddr5_drv_cb_t);
+
+            drive_1ck_zero();
+
+            drive_1ck_onezero();
+
+          end
+
+          2: begin
+
+            repeat(`TCWL-2) @(vif.ddr5_drv_cb_t);
+
+            drive_1ck_onezero();
+
+          end
+
+          default: drive_write_preamble(wr_preamble);
+
+        endcase
+
+      end
+ 
+      WR_PRE_4TCK: begin
+
+        case(skip_ck)
+
+          0: drive_write_preamble(wr_preamble);
+
+          1: begin
+
+            repeat(`TCWL-4) @(vif.ddr5_drv_cb_t);
+
+            drive_1ck_zero();
+
+            drive_1ck_onezero();
+
+            drive_1ck_onezero();
+
+          end
+
+          2: begin
+
+            repeat(`TCWL-3) @(vif.ddr5_drv_cb_t);
+
+            drive_1ck_onezero();
+
+            drive_1ck_onezero();
+
+          end
+
+          3: begin
+
+            repeat(`TCWL-2) @(vif.ddr5_drv_cb_t);
+
+            drive_1ck_onezero();
+
+          end
+
+          default: drive_write_preamble(wr_preamble);
+
+        endcase
+
+      end
+ 
+      default: drive_write_preamble(wr_preamble);
+
+    endcase
+ 
+    `uvm_info("DDR5_DRV_TIMING",
+
+      $sformatf("[$time=%0t] INTERAMBLE PREAMBLE END",$time),UVM_LOW)
+
+  endtask
+ 
+  //============================================================
+
+  // WRITE DATA + DQS
+
+  //============================================================
+ 
+  task drive_write_data(
+
+    ddr5_seq_item wr_seq,
+
+    input bit [1:0] wr_pre,
+
+    input bit wr_post,
+
+    input int tccd,
+
+    input bit seamless,
+
+    input bit gap_write,
+
+    input int my_write_id
+
+  );
+ 
+    bit next_write_exists;
+
+    int next_write_id;
+
+    int next_tccd;
+
+    bit next_seamless;
+
+    bit next_gap;
+
+    bit next_is_seamless_local;
+ 
+    // tCCD is enforced before the WRITE command by
+
+    // wait_rw_transition(). Data and DQS keep the normal tCWL
+
+    // relationship to their own WRITE command.
+ 
+    fork
+ 
+      //==========================================================
+
+      // WRITE PREAMBLE / INTERAMBLE
+
+      //==========================================================
+
+      begin
+
+        if(seamless) begin
+
+          // Figure 21: second preamble disappears.
+
+        end
+
+        else if(gap_write) begin
+
+          // Figures 22-26: second preamble is retained but shortened
+
+          // where it overlaps the preceding WRITE burst.
+
+          drive_write_interamble_preamble(
+
+            wr_pre,
+
+            wr_post,
+
+            tccd
+
+          );
+
+        end
+
+        else begin
+
+          drive_write_preamble(wr_pre);
+
+        end
+
+      end
+ 
+      //==========================================================
+
+      // WRITE DQ
+
+      //==========================================================
+
+      begin
+
+        repeat(`TCWL-2) @(vif.ddr5_drv_cb_t);
+ 
+        for(int i=0;i<16;i++) begin
+
+          if((i % 2) == 0) begin
+
+            @(vif.ddr5_dq_drv_cb_t);
+
+            vif.ddr5_dq_drv_cb_t.dq <= wr_seq.dq_burst[i];
+
+            vif.ddr5_dq_drv_cb_t.dm_n <= 1'b1;
+ 
+            `uvm_info("DDR5_DRV",
+
+              $sformatf("WRITE[%0d] DQ[%0d]=%0h",
+
+                        my_write_id,i,wr_seq.dq_burst[i]),UVM_LOW)
+
+          end
+
+          else begin
+
+            @(vif.ddr5_dq_drv_cb_c);
+
+            vif.ddr5_dq_drv_cb_c.dq <= wr_seq.dq_burst[i];
+
+            vif.ddr5_dq_drv_cb_c.dm_n <= 1'b1;
+ 
+            `uvm_info("DDR5_DRV",
+
+              $sformatf("WRITE[%0d] DQ[%0d]=%0h",
+
+                        my_write_id,i,wr_seq.dq_burst[i]),UVM_LOW)
+
+          end
+
+        end
+ 
+        // DQ RELEASE
+
+        // --------------------------------------------------------
+
+        // IMPORTANT: DQ must be released from this DQ thread itself.
+
+        // Do NOT wait for the DQS burst thread to finish first.
+
+        // The previous implementation released DQ only after the
+
+        // fork/join, which made DQ[15] stay driven until the end of
+
+        // the DQS burst and caused the last data beat to appear
+
+        // stretched.
+
+        //
+
+        // For seamless tCCD=8, keep ownership for the next WRITE's
+
+        // DQ[0]. For all other cases release on the next DQ edge.
+
+        // At this point the next WRITE command has already been
+
+        // issued, so its per-write context is available.
+
+        // --------------------------------------------------------
+
+        next_is_seamless_local = 1'b0;
+
+        if(write_seamless_by_id.exists(my_write_id + 1))
+
+          next_is_seamless_local = write_seamless_by_id[my_write_id + 1];
+ 
+        if(!next_is_seamless_local) begin
+
+          // DQ[15] was placed on the C-side edge. Release on the
+
+          // following T-side edge: one UI later, not one full CK.
+
+          @(vif.ddr5_dq_drv_cb_t);
+
+          vif.ddr5_dq_drv_cb_t.dq <= 'z;
+
+          vif.ddr5_dq_drv_cb_t.dm_n <= 1'b1;
+
+          vif.ddr5_dq_drv_cb_c.dq <= 'z;
+
+          vif.ddr5_dq_drv_cb_c.dm_n <= 1'b1;
+
+        end
+
+      end
+ 
+      //==========================================================
+
+      // WRITE DQS BURST
+
+      //==========================================================
+
+      begin
+
+        repeat(`TCWL-1) @(vif.ddr5_drv_cb_t);
+ 
+        for(int i=0;i<16;i++) begin
+
+          if((i % 2) == 0) begin
+
+            @(vif.ddr5_wr_drv_cb_t);
+
+            vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b1;
+
+            vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b0;
+
+          end
+
+          else begin
+
+            @(vif.ddr5_wr_drv_cb_c);
+
+            vif.ddr5_wr_drv_cb_c.dqs_t <= 1'b0;
+
+            vif.ddr5_wr_drv_cb_c.dqs_c <= 1'b1;
+
+          end
+
+        end
+
+      end
+ 
+    join
+ 
+    //============================================================
+
+    // DETERMINE THE IMMEDIATELY NEXT WRITE
+
+    //============================================================
+ 
+    next_write_id = my_write_id + 1;
+
+    next_write_exists = write_tccd_by_id.exists(next_write_id);
+ 
+    if(next_write_exists) begin
+
+      next_tccd     = write_tccd_by_id[next_write_id];
+
+      next_seamless = write_seamless_by_id[next_write_id];
+
+      next_gap      = write_gap_by_id[next_write_id];
+
+    end
+
+    else begin
+
+      next_tccd     = 0;
+
+      next_seamless = 1'b0;
+
+      next_gap      = 1'b0;
+
+    end
+ 
+    //============================================================
+
+    // DQS POSTAMBLE / SEAMLESS / INTERAMBLE
+
+    //============================================================
+ 
+    if(next_write_exists) begin
+ 
+      //==========================================================
+
+      // CASE 1: SEAMLESS BL16, DIFFERENT BG, TCCD=8
+
+      //==========================================================
+
+      if(next_seamless) begin
+
+        // Figure 21: no postamble for WRITE N and no preamble for
+
+        // WRITE N+1. The DQS burst continues seamlessly.
+ 
+        `uvm_info("DDR5_DRV",
+
+          $sformatf("WRITE[%0d] -> WRITE[%0d] SEAMLESS TCCD=%0d",
+
+                    my_write_id,next_write_id,next_tccd),UVM_LOW)
+
+      end
+ 
+      //==========================================================
+
+      // CASE 2: CONSECUTIVE DIFFERENT-BG BL16, TCCD>8
+
+      //==========================================================
+
+      else if(next_gap) begin
+
+        //==========================================================
+
+        // CASE 2: CONSECUTIVE BL16 DIFFERENT-BG WRITE, tCCD > 8
+
+        //==========================================================
+
+        // Keep the complete postamble of WRITE N. The next WRITE
+
+        // preamble is generated by the next WRITE thread and is
+
+        // shortened according to Figures 22-26.
+
+        //==========================================================
+ 
+        @(vif.ddr5_drv_cb_t);
+
+        vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b0;
+
+        vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b1;
+ 
+        if(wr_post == WR_PSTBLE_0_5TCK) begin
+
+          // 0.5 CK postamble
+
+          @(vif.ddr5_drv_cb_c);
+
+        end
+
+        else begin
+
+          // 1.5 CK postamble
+
+          @(vif.ddr5_drv_cb_c);
+
+          @(vif.ddr5_drv_cb_t);
+
+          @(vif.ddr5_drv_cb_c);
+
+        end
+ 
+        `uvm_info("DDR5_DRV",
+
+          $sformatf("WRITE[%0d] -> WRITE[%0d] INTERAMBLE TCCD=%0d",
+
+                    my_write_id,next_write_id,next_tccd),UVM_LOW)
+
+      end
+ 
+      //==========================================================
+
+      // CASE 3: NORMAL NEXT WRITE
+
+      //==========================================================
+
+      else begin
+
+        @(vif.ddr5_drv_cb_t);
+
+        vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b0;
+
+        vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b1;
+ 
+        if(wr_post == WR_PSTBLE_0_5TCK) begin
+
+          @(vif.ddr5_drv_cb_c);
+
+        end
+
+        else begin
+
+          @(vif.ddr5_drv_cb_c);
+
+          @(vif.ddr5_drv_cb_t);
+
+          @(vif.ddr5_drv_cb_c);
+
+        end
+ 
+        vif.ddr5_wr_drv_cb_t.dqs_t <= 1'bz;
+
+        vif.ddr5_wr_drv_cb_t.dqs_c <= 1'bz;
+
+        vif.ddr5_wr_drv_cb_c.dqs_t <= 1'bz;
+
+        vif.ddr5_wr_drv_cb_c.dqs_c <= 1'bz;
+
+      end
+ 
+    end
+
+    else begin
+
+      //==========================================================
+
+      // FINAL / STANDALONE WRITE
+
+      //==========================================================
+
+      @(vif.ddr5_drv_cb_t);
+
+      vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b0;
+
+      vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b1;
+ 
+      if(wr_post == WR_PSTBLE_0_5TCK) begin
+
+        @(vif.ddr5_drv_cb_c);
+
+      end
+
+      else begin
+
+        @(vif.ddr5_drv_cb_c);
+
+        @(vif.ddr5_drv_cb_t);
+
+        @(vif.ddr5_drv_cb_c);
+
+      end
+ 
+      vif.ddr5_wr_drv_cb_t.dqs_t <= 1'bz;
+
+      vif.ddr5_wr_drv_cb_t.dqs_c <= 1'bz;
+
+      vif.ddr5_wr_drv_cb_c.dqs_t <= 1'bz;
+
+      vif.ddr5_wr_drv_cb_c.dqs_c <= 1'bz;
+
+    end
+ 
+    outstanding_writes--;
+ 
+    write_tccd_by_id.delete(my_write_id);
+
+    write_seamless_by_id.delete(my_write_id);
+
+    write_gap_by_id.delete(my_write_id);
+ 
+  endtask
+ 
+  //============================================================
+
+  // WRITE COMMAND
+
+  //============================================================
+ 
+  task write(ddr5_seq_item seq);
+ 
+    bit [13:0] ca1,ca2;
+
+    bit cmd_bl;
+
+    bit [1:0] wr_pre;
+
+    bit wr_post;
+
+    bit seamless;
+
+    bit gap_write;
+
+    bit non_partial;
+
+    int tccd;
+
+    int my_write_id;
+ 
+    ddr5_seq_item wr_seq;
+ 
+    cmd_bl = ((seq.bl == BC8_OTF) || (seq.bl == BL32_OTF));
+ 
+    ca1 = {3'b000,seq.bg,seq.ba,cmd_bl,5'b01101};
+
+    ca2 = {3'b000,1'b1,1'b0,seq.col[10:3],1'b0};
+ 
+    drive_cmd(1'b0,ca1);
+
+    drive_cmd(1'b1,ca2);
+
+    release_ca();
+ 
+    wr_seq = ddr5_seq_item::type_id::create("wr_seq");
+
+    wr_seq.copy(seq);
+ 
+    wr_pre  = current_wr_preamble;
+
+    wr_post = current_wr_postamble;
+ 
+    non_partial = is_non_partial_write(seq);
+ 
+    // Calculate WRITE->WRITE spacing before deciding whether this
+
+    // WRITE is seamless.  This is important when TCCD_S is changed
+
+    // from 8 to 9/10/etc for gap testing.
+
+    if(have_last_rw && (last_rw_cmd == WRITE)) begin
+
+      tccd = get_write_write_tccd(last_rw_bg,seq.bg,non_partial);
+
+    end
+
+    else begin
+
+      tccd = 0;
+
+    end
+ 
+    seamless = is_seamless_write(seq,tccd);
+
+    gap_write = is_gap_write(seq,tccd);
+ 
+    my_write_id = write_id_counter;
+
+    write_id_counter++;
+ 
+    write_tccd_by_id[my_write_id] = tccd;
+
+    write_seamless_by_id[my_write_id] = seamless;
+
+    write_gap_by_id[my_write_id] = gap_write;
+ 
+    outstanding_writes++;
+ 
+    `uvm_info("DDR5_DRV",
+
+      $sformatf("WRITE[%0d] CMD BG=%0d BA=%0d COL=%0d BL=%0d NON_PARTIAL=%0b PREV_NP=%0b TCCD=%0d SEAMLESS=%0b GAP=%0b",
+
+                my_write_id,
+
+                seq.bg,
+
+                seq.ba,
+
+                seq.col,
+
+                seq.bl,
+
+                non_partial,
+
+                last_write_non_partial,
+
+                tccd,
+
+                seamless,
+
+                gap_write),
+
+      UVM_LOW)
+ 
+    fork
+
+      drive_write_data(
+
+        wr_seq,
+
+        wr_pre,
+
+        wr_post,
+
+        tccd,
+
+        seamless,
+
+        gap_write,
+
+        my_write_id
+
+      );
+
+    join_none
+ 
+  endtask
+ 
+  //============================================================
+
+  // READ COMMAND
+
+  //============================================================
+ 
+  task read(ddr5_seq_item seq);
+ 
+    bit [13:0] ca1,ca2;
+
+    bit cmd_bl;
+ 
+    cmd_bl = ((seq.bl == BC8_OTF)||(seq.bl == BL32_OTF));
+ 
+    ca1 = {3'b000,seq.bg,seq.ba,cmd_bl,5'b11101};
+
+    ca2 = {5'b00000,seq.col[10:2]};
+ 
+    drive_cmd(1'b0,ca1);
+
+    drive_cmd(1'b1,ca2);
+
+    release_ca();
+ 
+    `uvm_info("DDR5_DRV",$sformatf("READ CMD BG=%0d BA=%0d COL=%0d RL=%0d",seq.bg,seq.ba,seq.col,seq.rl),UVM_LOW)
+ 
+  endtask
+ 
+  //============================================================
+
+  // WRITE -> WRITE TCCD
+
+  //============================================================
+ 
+  function automatic int get_write_write_tccd(
+
+    input bit [`BG_WIDTH-1:0] prev_bg,
+
+    input bit [`BG_WIDTH-1:0] next_bg,
+
+    input bit next_non_partial
+
+  );
+ 
+    if(prev_bg != next_bg)
+
+      return `TCCD_S;
+ 
+    else if(next_non_partial)
+
+      return `TCCD_L_WR2;
+ 
+    else
+
+      return `TCCD_L_WR;
+ 
+  endfunction
+ 
+  //============================================================
+
+  // READ -> READ TCCD
+
+  //============================================================
+ 
+  function automatic int get_read_read_tccd(
+
+    input bit [`BG_WIDTH-1:0] prev_bg,
+
+    input bit [`BG_WIDTH-1:0] next_bg
+
+  );
+ 
+    if(prev_bg == next_bg)
+
+      return `TCCD_L;
+ 
+    else
+
+      return `TCCD_S;
+ 
+  endfunction
+ 
+  //============================================================
+
+  // WRITE -> READ
+
+  //============================================================
+ 
+  function automatic int get_write_read_timing(
+
+    input bit [`BG_WIDTH-1:0] prev_bg,
+
+    input bit [`BG_WIDTH-1:0] next_bg
+
+  );
+ 
+    if(prev_bg == next_bg)
+
+      return `TWTRA;
+ 
+    else
+
+      return `TWTR_S;
+ 
+  endfunction
+ 
+  //============================================================
+
+  // READ/WRITE COMMAND TIMING
+
+  //============================================================
+ 
+  task wait_rw_transition(
+
+    input rand_cmd next_cmd,
+
+    input bit [`BG_WIDTH-1:0] next_bg,
+
+    input bit next_non_partial
+
+  );
+ 
+    int required;
+
+    int remaining;
+ 
+    if(!have_last_rw)
+
+      return;
+ 
+    required = 0;
+ 
+    if((last_rw_cmd == WRITE)&&(next_cmd == WRITE)) begin
+
+      required = get_write_write_tccd(last_rw_bg,next_bg,next_non_partial);
+
+    end
+ 
+    else if((last_rw_cmd == READ)&&(next_cmd == READ)) begin
+
+      required = get_read_read_tccd(last_rw_bg,next_bg);
+
+    end
+ 
+    else if((last_rw_cmd == WRITE)&&(next_cmd == READ)) begin
+
+      required = get_write_read_timing(last_rw_bg,next_bg);
+
+    end
+ 
+    else if((last_rw_cmd == READ)&&(next_cmd == WRITE)) begin
+
+      `uvm_warning("DDR5_RTW","READ->WRITE timing is not defined; no additional delay inserted")
+
+      required = 0;
+
+    end
+ 
+    if(required > 0) begin
+ 
+      remaining = required-cycles_since_last_rw;
+ 
+      if(remaining > 0) begin
+
+        `uvm_info("DDR5_CMD_TIMING",$sformatf("PREV_CMD=%0d PREV_BG=%0d NEXT_CMD=%0d NEXT_BG=%0d REQUIRED=%0d ELAPSED=%0d WAIT=%0d",last_rw_cmd,last_rw_bg,next_cmd,next_bg,required,cycles_since_last_rw,remaining),UVM_MEDIUM)
+ 
+        repeat(remaining) @(vif.ddr5_drv_cb_t);
+ 
+        cycles_since_last_rw += remaining;
+
+      end
+ 
+    end
+ 
+  endtask
+ 
+  //============================================================
+
+  // DRIVE TRANSACTION
+
+  //============================================================
+ 
+  task drive_tx(ddr5_seq_item seq);
+ 
+    bit next_non_partial;
+ 
+    `uvm_info("DRV",$sformatf("Received CMD=%0d BG=%0d BA=%0d COL=%0d",seq.cmd,seq.bg,seq.ba,seq.col),UVM_LOW)
+ 
+    next_non_partial = 1'b0;
+
+    if(seq.cmd == WRITE)
+
+      next_non_partial = is_non_partial_write(seq);
+ 
+    wait_rw_transition(seq.cmd,seq.bg,next_non_partial);
+ 
+    case(seq.cmd)
+ 
+      //========================================================
+
+      // ACTIVATE
+
+      //========================================================
+ 
+      ACTIVATE: begin
+ 
+        vif.cmd <= ACTIVATE;
+ 
+        activate(seq);
+ 
+        repeat(`TRCD) @(vif.ddr5_drv_cb_t);
+ 
+        have_last_rw = 1'b0;
+
+        cycles_since_last_rw = 0;
+ 
+      end
+ 
+      //========================================================
+
+      // WRITE
+
+      //========================================================
+ 
+      WRITE: begin
+ 
+        vif.cmd <= WRITE;
+ 
+        write(seq);
+ 
+        have_last_rw = 1'b1;
+
+        last_rw_cmd = WRITE;
+
+        last_rw_bg = seq.bg;
+ 
+        last_write_non_partial = is_non_partial_write(seq);
+ 
+        // WRITE command itself consumes the command cycles.
+
+        cycles_since_last_rw = CMD_CYCLES;
+ 
+      end
+ 
+      //========================================================
+
+      // READ
+
+      //========================================================
+ 
+      READ: begin
+ 
+        vif.cmd <= READ;
+ 
+        read(seq);
+ 
+        have_last_rw = 1'b1;
+
+        last_rw_cmd = READ;
+
+        last_rw_bg = seq.bg;
+ 
+        cycles_since_last_rw = CMD_CYCLES;
+ 
+      end
+ 
+      //========================================================
+
+      // MRW
+
+      //========================================================
+ 
+      MRW: begin
+ 
+        bit [7:0] mr_opcode;
+ 
+        if(seq.mra == 8'd8) begin
+ 
+          mr_opcode = {
+
+            seq.wr_postamble,
+
+            seq.rd_postamble,
+
+            1'b0,
+
+            seq.wr_preamble,
+
+            seq.rd_preamble
+
+          };
+ 
+          mrw(seq.mra,mr_opcode);
+ 
+        end
+ 
+        else begin
+ 
+          mrw(seq.mra,seq.mr_opcode);
+ 
+        end
+ 
+        have_last_rw = 1'b0;
+
+        cycles_since_last_rw = 0;
+ 
+      end
+ 
+      //========================================================
+
+      // DEFAULT
+
+      //========================================================
+ 
+      default:
+
+        `uvm_error("DDR5_DRV",$sformatf("Unsupported command in this driver: %0d",seq.cmd))
+ 
+    endcase
+ 
+  endtask
+ 
+endclass
+ 
+ 
+ 

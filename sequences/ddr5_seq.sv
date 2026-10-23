@@ -97,7 +97,29 @@ finish_item(seq);
       `uvm_error("SEQ_READ", "Address queue is empty")
 
     end
+//Precharge
+
+	start_item(seq);
+
+    if (!seq.randomize with {cmd == PRECHARGE; bg == 2; ba==3; row==target_row;})
+
+      `uvm_error("SEQ_PRE","random failed")
+
+    finish_item(seq);
  
+       start_item(seq);
+
+    if (!seq.randomize() with {cmd == WRITE; bl == BL16; bg == target_bg; ba == target_ba; col == target_col;})
+
+      `uvm_error("SEQ_WRITE", "Randomization failed")
+
+    col_addr.push_back(seq.col);
+
+    finish_item(seq);
+
+    `uvm_info("SEQ_WRITE", $sformatf("WRITE -> BG=%0d BA=%0d ROW=%0d COL=%0d BL=%s", seq.bg, seq.ba, target_row, seq.col, seq.bl.name()), UVM_LOW)
+
+  
   endtask
  
 endclass

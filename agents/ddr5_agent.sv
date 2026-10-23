@@ -12,7 +12,7 @@ class ddr5_agent extends uvm_agent;
   function void build_phase(uvm_phase phase);
    
     super.build_phase(phase);
-    monh   = ddr5_monitor::type_id::create("monh",this);
+   monh   = ddr5_monitor::type_id::create("monh",this);
     drvh   = ddr5_driver::type_id::create("drvh",this);
     seqh = ddr5_sequencer::type_id::create("seqh",this);
  

@@ -1,0 +1,11 @@
+2 7 uvm_pkg 4 fast 48 /opt/Siemens/questaone/2026.2/questasim/uvm-1.1d 1 0 26640384 0 136476 0
+2 14 questa_uvm_pkg 4 fast 48 /opt/Siemens/questaone/2026.2/questasim/uvm-1.1d 1 0 1349632 26640384 7313 0
+1 12 ddr5_seq_pkg 4 fast 37 /home/saketh/consective/DDR5/sim/work 1 0 6077440 26640384 14389 0
+1 16 ddr5_top_sv_unit 4 fast 37 /home/saketh/consective/DDR5/sim/work 1 0 0 29557760 0 0
+1 14 ddr5_agent_pkg 4 fast 37 /home/saketh/consective/DDR5/sim/work 1 0 2888704 29557760 8782 0
+1 12 ddr5_env_pkg 4 fast 37 /home/saketh/consective/DDR5/sim/work 1 0 603136 31163392 3456 0
+1 13 ddr5_test_pkg 4 fast 37 /home/saketh/consective/DDR5/sim/work 1 0 1861632 31687680 2830 0
+1 8 ddr5_pkg 4 fast 37 /home/saketh/consective/DDR5/sim/work 1 0 0 32474112 0 0
+1 14 ddr5_interface 5 synth 37 /home/saketh/consective/DDR5/sim/work 1 0 0 29557760 0 0
+1 14 ddr5_interface 7 fast__2 37 /home/saketh/consective/DDR5/sim/work 1 0 262144 29557760 1411 0
+1 8 ddr5_top 4 fast 37 /home/saketh/consective/DDR5/sim/work 1 0 0 32474112 67 0

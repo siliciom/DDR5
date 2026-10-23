@@ -1,0 +1,9 @@
+# VISUALIZERROOT = '/opt/Siemens/questaone/2026.2/questasim/linux_x86_64/VisualizerRls'
+# USER = 'saketh'
+# Siemens software version 2026.2_1 (Build on Jun 25 2026)
+# Unpublished work. Copyright 2026 Siemens
+
+# visualizer
+# visualizer -wavefile /home/saketh/consective/DDR5/sim/results/ddr5_wr_rd_without_act_test_x8/qwave.db
+# 11:13:53: Loading waveform header...
+# 11:13:53: Loaded  waveform header

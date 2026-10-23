@@ -32,9 +32,23 @@ interface ddr5_interface (
 
   logic dqs_c;
 
+  //dqs for x16
+
+  logic dqsl_t; // dqs for lower bytes
+
+  logic dqsl_c;
+ 
+  logic dqsu_t; //dqs for upper bytes
+
+  logic dqsu_c;
+
   // Data Mask
 
   logic dm_n;
+
+  logic dml_n;
+
+  logic dmu_n;
 
 rand_cmd cmd; 
 
@@ -56,7 +70,7 @@ rand_cmd cmd;
 
     //output dqs_c;
 
-    output dm_n;
+    //output dm_n;
 
     output cmd;
 
@@ -82,7 +96,7 @@ rand_cmd cmd;
 
     //output dqs_c;
 
-    output dm_n;
+   // output dm_n;
 
   endclocking
 
@@ -118,6 +132,12 @@ clocking ddr5_dq_drv_cb_t @(posedge ck_t);
 
 output  dq;
 
+output dm_n;
+
+output dml_n;
+
+output dmu_n;
+
 endclocking
 
 clocking ddr5_dq_drv_cb_c @(posedge ck_c);
@@ -125,6 +145,12 @@ clocking ddr5_dq_drv_cb_c @(posedge ck_c);
   default input #1step output #0.46875;
 
 output  dq;
+
+output dm_n;
+
+output dml_n;
+
+output dmu_n;
 
 endclocking
 
@@ -136,6 +162,16 @@ clocking ddr5_wr_drv_cb_t @(posedge ck_t);
   output   dqs_t;
 
   output   dqs_c;
+ 
+  //for x16 device
+
+  output   dqsl_t;
+
+  output   dqsl_c;
+ 
+  output   dqsu_t;
+
+  output   dqsu_c;
 
 endclocking
 
@@ -146,72 +182,112 @@ clocking ddr5_wr_drv_cb_c @(posedge ck_c);
   output   dqs_t;
 
   output   dqs_c;
+ 
+  //for x16 device
 
+  output   dqsl_t;
+
+  output   dqsl_c;
+ 
+  output   dqsu_t;
+
+  output   dqsu_c;
+ 
 endclocking
 
 
   // Monitor Clocking Block : True Clock
 
-  clocking ddr5_mon_cb_t @(posedge ck_t);
+clocking ddr5_mon_cb_t @(posedge ck_t);
 
-    default input #1step ;
+  default input #1step;
+ 
+  input reset_n;
 
-    input reset_n;
+  input cs_n;
 
-    input cs_n;
+  input ca;
 
-    input ca;
+  input dq;
 
-    input dq;
+  input dm_n;
 
-    input dm_n;
+  input dqs_t;
 
-    //output cmd;
+  input dqs_c;
 
-    input dqs_t;
+  input dqsl_t;
 
-    input dqs_c;
+  input dqsl_c;
 
-  endclocking
+  input dqsu_t;
 
+  input dqsu_c;
+
+  input dml_n;
+
+  input dmu_n;
+
+endclocking
+ 
 // Monitor Clocking Block : Complement Clock
 
   clocking ddr5_mon_cb_c @(posedge ck_c);
 
-    default input #1step;
+  default input #1step;
+ 
+  input reset_n;
 
-    input reset_n;
+  input cs_n;
 
-    input cs_n;
+  input ca;
 
-    input ca;
+  input dq;
 
-    input dq;
+  input dm_n;
 
-    input dm_n;
+  input dqs_t;
 
-    input dqs_t;
+  input dqs_c;
 
-    input dqs_c;
+  input dqsl_t;
 
-  endclocking
+  input dqsl_c;
 
+  input dqsu_t;
+
+  input dqsu_c;
+
+  input dml_n;
+
+  input dmu_n;
+
+endclocking
+ 
 clocking ddr5_mon_pre_t_cb @(negedge ck_t);
 
   default input #0;
 
   input dqs_t, dqs_c;
 
-endclocking
+  input dqsl_t, dqsl_c;
 
+  input dqsu_t, dqsu_c;
+
+endclocking
+ 
 clocking ddr5_mon_pre_c_cb @(negedge ck_c);
 
   default input #0;
 
   input dqs_t, dqs_c;
 
-endclocking
+  input dqsl_t, dqsl_c;
 
+  input dqsu_t, dqsu_c;
+
+endclocking
+ 
 // Monitor Clocking Block : DQS True
 
 clocking ddr5_mon_dqs_t_cb @(posedge dqs_t);
@@ -223,6 +299,22 @@ clocking ddr5_mon_dqs_t_cb @(posedge dqs_t);
   input dqs_t;
 
   input dqs_c;
+
+   input dm_n;
+
+  //for 16
+
+  input dqsl_t;
+
+  input dqsl_c;
+
+  input dqsu_t;
+
+  input dqsu_c;
+
+  input dml_n;
+
+  input dmu_n;
 
 endclocking
  
@@ -238,9 +330,51 @@ clocking ddr5_mon_dqs_c_cb @(posedge dqs_c);
 
   input dqs_c;
 
+  input dm_n;
+
 endclocking
 
+clocking ddr5_mon_dqsl_t_cb @(posedge dqsl_t);
 
+  default input #0;
+
+  input dq;
+
+  input dqsl_t;
+
+  input dqsl_c;
+
+  input dqsu_t;
+
+  input dqsu_c;
+
+  input dml_n;
+
+  input dmu_n;
+
+endclocking
+ 
+clocking ddr5_mon_dqsl_c_cb @(posedge dqsl_c);
+
+  default input #0;
+
+  input dq;
+
+  input dqsl_t;
+
+  input dqsl_c;
+
+  input dqsu_t;
+
+  input dqsu_c;
+
+  input dml_n;
+
+  input dmu_n;
+
+endclocking
+ 
+ 
 //==========================================================
 
     // 1. TINIT1
@@ -387,5 +521,75 @@ else
 
   $error("MRW FAILED: CA1 NOT FOLLOWED BY CORRECT CA2");
 
+/*
+
+//====================================================
+
+// MRW: CA2 -> RELEASE CA
+
+//====================================================
+
+property p_mrw_ca2_release;
+
+  @(posedge vif.ck_t)
+
+    (vif.cs_n == 1'b1 &&
+
+     vif.ca[13:8] == 6'b000000)
+
+    |=>
+
+    (vif.cs_n == 1'b1 &&
+
+     vif.ca === 14'bz);
+
+endproperty
+
+a_mrw_ca2_release: assert property(p_mrw_ca2_release)
+
+else
+
+  $error("MRW FAILED: CA NOT RELEASED AFTER CA2");
+
+
+//====================================================
+
+// COMPLETE MRW SEQUENCE
+
+//====================================================
+
+property p_complete_mrw;
+
+  @(posedge vif.ck_t)
+
+    (vif.cs_n == 1'b0 &&
+
+     vif.ca[4:0] == 5'b00101)
+
+    ##1
+
+    (vif.cs_n == 1'b1 &&
+
+     vif.ca[13:8] == 6'b000000)
+
+    ##1
+
+    (vif.cs_n == 1'b1 &&
+
+     vif.ca === 14'bz);
+
+endproperty
+
+a_complete_mrw: assert property(p_complete_mrw)
+
+else
+
+  $error("COMPLETE MRW SEQUENCE FAILED");
+
+*/
+
+
 endinterface
+ 
+ 
  
