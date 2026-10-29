@@ -1,10 +1,10 @@
 QuestaSim-64 vlog 2026.2_1 Compiler 2026.06 Jun 25 2026
-Start time: 09:28:03 on Oct 23,2026
+Start time: 04:42:39 on Oct 29,2026
 vlog -work work -sv ../sequences/ddr5_seq_pkg.sv ../agents/ddr5_agent_pkg.sv ../env/ddr5_env_pkg.sv ../tests/ddr5_test_pkg.sv ../config/ddr5_pkg.sv ../top/ddr5_interface.sv ../top/ddr5_top.sv -l ./results/ddr5_tFAW_4bank_1600_test/comp.log 
 -- Compiling package ddr5_seq_pkg
 -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
 ** Note: (vlog-2286) ../sequences/ddr5_seq_pkg.sv(4): Using implicit +incdir+/opt/Siemens/questaone/2026.2/questasim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
-** Warning: ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(165): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+** Warning: ../sequences/ddr5_mul_conseq_wr_rd_db_x8_seq.sv(167): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
 ** Warning: ../sequences/ddr5_mul_nonconseq_wr_rd_db_seq.sv(141): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
 ** Warning: ../sequences/ddr5_mul_nonconseq_wr_rd_sb_x8_seq.sv(163): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
 ** Warning: ../sequences/ddr5_mul_con_noncon_wr_rd_x8_seq.sv(186): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
@@ -14,9 +14,9 @@ vlog -work work -sv ../sequences/ddr5_seq_pkg.sv ../agents/ddr5_agent_pkg.sv ../
 ** at ../config/ddr5_timingpar.sv(1): (vlog-13543) `timescale directive not allowed inside design elements.
 ** Warning: ** while parsing file included at ../agents/ddr5_agent_pkg.sv(8)
 ** at ../config/ddr5_timingpar.sv(33): (vlog-2263) Redefinition of macro: 'TWTRA' (previously defined near ../config/ddr5_timingpar.sv(18), old value 'TWR-TRTP ', new value '4  ') .
-** Warning: ../agents/ddr5_monitor.sv(757): (vlog-8386) An enum variable 'wr_tr.wr_preamble' of type 'write_preamble' may only be assigned the same enum typed variable or one of its values. Value 'this.current_wr_preamble' requires an explicit cast.
-** Warning: ../agents/ddr5_monitor.sv(917): (vlog-8386) An enum variable 'rd_tr.rd_preamble' of type 'read_preamble' may only be assigned the same enum typed variable or one of its values. Value 'this.current_rd_preamble' requires an explicit cast.
-** Warning: ../agents/ddr5_monitor.sv(141): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+** Warning: ../agents/ddr5_monitor.sv(844): (vlog-8386) An enum variable 'wr_tr.wr_preamble' of type 'write_preamble' may only be assigned the same enum typed variable or one of its values. Value 'this.current_wr_preamble' requires an explicit cast.
+** Warning: ../agents/ddr5_monitor.sv(1015): (vlog-8386) An enum variable 'rd_tr.rd_preamble' of type 'read_preamble' may only be assigned the same enum typed variable or one of its values. Value 'this.current_rd_preamble' requires an explicit cast.
+** Warning: ../agents/ddr5_monitor.sv(147): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
 -- Compiling package ddr5_env_pkg
 -- Importing package ddr5_agent_pkg
 ** Warning: ** while parsing file included at ../env/ddr5_env_pkg.sv(10)
@@ -25,7 +25,7 @@ vlog -work work -sv ../sequences/ddr5_seq_pkg.sv ../agents/ddr5_agent_pkg.sv ../
 ** Warning: ** while parsing file included at ../env/ddr5_env_pkg.sv(10)
 ** while parsing file included at ../env/ddr5_scoreboard.sv(1)
 ** at ../config/ddr5_timingpar.sv(33): (vlog-2263) Redefinition of macro: 'TWTRA' (previously defined near ../config/ddr5_timingpar.sv(18), old value 'TWR-TRTP ', new value '4  ') .
-** Warning: ../env/ddr5_scoreboard.sv(1019): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+** Warning: ../env/ddr5_scoreboard.sv(1094): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
 -- Compiling package ddr5_test_pkg
 -- Importing package ddr5_env_pkg
 -- Compiling package ddr5_pkg
@@ -53,10 +53,10 @@ vlog -work work -sv ../sequences/ddr5_seq_pkg.sv ../agents/ddr5_agent_pkg.sv ../
 
 Top level modules:
 	ddr5_top
-vlog: End time: 09:28:04 on Oct 23,2026, Elapsed time: 0:00:01
+vlog: End time: 04:42:40 on Oct 29,2026, Elapsed time: 0:00:01
 Errors: 0, Warnings: 19
 
 =================================
 COMPILE PASSED
-Time : Fri Oct 23 09:28:04 UTC 2026
+Time : Thu Oct 29 04:42:40 UTC 2026
 =================================

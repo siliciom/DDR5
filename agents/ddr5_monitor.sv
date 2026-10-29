@@ -11,6 +11,8 @@ class ddr5_monitor extends uvm_monitor;
   bit [2:0] current_rd_preamble;
 
   bit [1:0] current_wr_preamble;
+
+  burst_length_e current_bl;
  
   bit [`ROW_WIDTH-1:0] active_row
 
@@ -39,6 +41,10 @@ class ddr5_monitor extends uvm_monitor;
   bit [`BG_WIDTH-1:0] prev_write_bg = '0;
 
   bit prev_write_bl16 = 1'b0;
+
+  bit bl32_write_cmd_seen = 0;
+  
+  bit bl32_read_cmd_seen = 0;
  
   ddr5_seq_item mon_txn_q[$];
 
@@ -55,7 +61,7 @@ semaphore mon_q_sem = new(1);
 
     current_wr_preamble = 2'b00;
  
-     endfunction
+  endfunction
  
  
   function void build_phase(uvm_phase phase);
@@ -162,20 +168,34 @@ task publish_transactions();
 
     if (item.cmd inside {READ, READ_AP, WRITE, WRITE_AP}) begin
 
-      foreach (item.dq_burst[i]) begin
+      int burst_limit;
 
-        `uvm_info("MON_TO_SB",
+      if (item.full_bl32)
+        burst_limit = 32;
+      else if ((item.bl == BC8_OTF) && (item.ca5 == 1'b0))
+        burst_limit = 8;
+      else
+        burst_limit = 16;
 
-          $sformatf("%s DATA[%0d] = %h",
+      for(int i=0;i<burst_limit;i++) begin
 
-                    item.cmd.name(), i, item.dq_burst[i]),
+        int disp_idx;
 
-          UVM_LOW)
+        disp_idx = i;
 
-      end
+        if(item.bc8_upper_half)
+          disp_idx = i + 8;
+        else if(item.bl32_upper_half)
+          disp_idx = i + 16;
 
+          `uvm_info("MON_TO_SB",
+              $sformatf("WRITE DQ[%0d]=%0h",
+                disp_idx, 
+                item.dq_burst[i]), UVM_LOW)
+
+        end
     end
- 
+     
     // Publish the transaction.
 
     ddr5_ap.write(item);
@@ -477,6 +497,22 @@ end
   tr.mra       = ca1[12:5];
 
   tr.mr_opcode = ca2[7:0];
+
+  if (tr.mra == 8'd0) begin
+
+  case (tr.mr_opcode[1:0])
+
+    2'b00 : current_bl = BL16;
+    2'b01 : current_bl = BC8_OTF;
+    2'b10 : current_bl = BL32;
+    2'b11 : current_bl = BL32_OTF;
+
+  endcase
+
+    `uvm_info("MON_MR0_DEBUG", $sformatf("MR0 DETECTED : BL=%s",
+              current_bl.name()), UVM_LOW)
+
+  end
  
   if (tr.mra == 8'd8) begin
  
@@ -745,20 +781,71 @@ endtask
     wr_tr.bg = ca1[10:8];
 
     wr_tr.ba = ca1[7:6];
- 
-    if (`DATA_WIDTH == 4)
 
-      wr_tr.col = {ca2[8:1], 3'b000};
+    wr_tr.bl  = current_bl;
+
+    wr_tr.ca5 = ca1[5];
+
+    wr_tr.full_bl32 = ((wr_tr.bl == BL32) ||
+                        ((wr_tr.bl == BL32_OTF) && (wr_tr.ca5 == 1'b0)));
+    
+    if (`DATA_WIDTH == 4) begin
+    
+      if (wr_tr.full_bl32)
+        wr_tr.col = {1'b0, ca2[7:1], 3'b000};
+      else
+        wr_tr.col = {ca2[8:1], 3'b000};
+    end
 
     else
 
       wr_tr.col = {ca2[7:1], 3'b000};
+
+
+    wr_tr.bc8_upper_half = ((wr_tr.bl == BC8_OTF) &&
+                            (wr_tr.ca5 == 1'b0) && (wr_tr.col[3] == 1'b1));
+
+    wr_tr.bl32_upper_half = ((wr_tr.bl == BL32_OTF) &&
+                              (wr_tr.ca5 == 1'b1) && (wr_tr.col[10] == 1'b1));
+
+      `uvm_info("MON_BURST_MODE",
+        $sformatf("WRITE BL=%s CA5=%0d COL=%0d FULL_BL32=%0b BC8_UPPER=%0b BL32_UPPER=%0b",
+          wr_tr.bl.name(),
+          wr_tr.ca5,
+          wr_tr.col,
+          wr_tr.full_bl32,
+          wr_tr.bc8_upper_half,
+          wr_tr.bl32_upper_half),
+        UVM_LOW)
+
+   if (wr_tr.full_bl32) begin
+
+    if (!bl32_write_cmd_seen) begin
+
+      bl32_write_cmd_seen = 1'b1;
+
+      `uvm_info("BL32_MON",
+      "FIRST BL32 WRITE DETECTED - WAITING FOR SECOND WRITE",
+      UVM_LOW)
+
+      return;
+
+    end
+
+    bl32_write_cmd_seen = 1'b0;
+
+      `uvm_info("BL32_MON",
+        "SECOND BL32 WRITE DETECTED - STARTING DATA CAPTURE",
+          UVM_LOW)
+
+   end
  
+    
     wr_tr.wr_preamble = current_wr_preamble;
 
-`uvm_info("MON_BANK_STATE",
+      `uvm_info("MON_BANK_STATE",
 
-    $sformatf("BEFORE WRITE: BG=%0d BA=%0d OPEN=%0b",
+        $sformatf("BEFORE WRITE: BG=%0d BA=%0d OPEN=%0b",
 
               wr_tr.bg, wr_tr.ba,
 
@@ -905,17 +992,65 @@ task monitor_read(
     rd_tr.bg = ca1[10:8];
 
     rd_tr.ba = ca1[7:6];
- 
-    if (`DATA_WIDTH == 4)
 
+    rd_tr.bl  = current_bl;
+    
+    rd_tr.ca5 = ca1[5];
+
+    rd_tr.full_bl32 = ((rd_tr.bl == BL32) ||
+                       ((rd_tr.bl == BL32_OTF) && (rd_tr.ca5 == 1'b0)));
+ 
+    if (`DATA_WIDTH == 4) begin
+      
+      if (rd_tr.full_bl32)
+        rd_tr.col = {1'b0, ca2[7:1], 3'b000};
+      else
         rd_tr.col = {ca2[8:1], 3'b000};
+    end
 
     else
 
         rd_tr.col = {ca2[7:1], 3'b000};
  
     rd_tr.rd_preamble = current_rd_preamble;
+
+     rd_tr.bc8_upper_half = ((rd_tr.bl == BC8_OTF) &&
+                            (rd_tr.ca5 == 1'b0) && (rd_tr.col[3] == 1'b1));
+
+    rd_tr.bl32_upper_half = ((rd_tr.bl == BL32_OTF) &&
+                             (rd_tr.ca5 == 1'b1) && (rd_tr.col[10] == 1'b1));
+
+    `uvm_info("READ_BURST_MODE",
+      $sformatf("READ BL=%s CA5=%0d COL=%0d FULL_BL32=%0b BC8_UPPER=%0b BL32_UPPER=%0b",
+          rd_tr.bl.name(),
+          rd_tr.ca5,
+          rd_tr.col,
+          rd_tr.full_bl32,
+          rd_tr.bc8_upper_half,
+          rd_tr.bl32_upper_half),
+      UVM_LOW)
  
+   if (rd_tr.full_bl32) begin
+
+    if (!bl32_read_cmd_seen) begin
+
+      bl32_read_cmd_seen = 1'b1;
+
+      `uvm_info("BL32_READ_MON",
+      "FIRST BL32 READ DETECTED - WAITING FOR SECOND READ",
+      UVM_LOW)
+
+      return;
+
+    end
+
+    bl32_read_cmd_seen = 1'b0;
+
+    `uvm_info("BL32_READ_MON",
+    "SECOND BL32 READ DETECTED - STARTING DATA CAPTURE",
+      UVM_LOW)
+
+   end
     // Capture the row associated with the READ command.
 
     if (bank_active[rd_tr.bg][rd_tr.ba]) begin
@@ -991,6 +1126,21 @@ task sample_write_data(ddr5_seq_item tr);
   int preamble_wait_cycles;
 
   int dq_wait_cycles;
+
+  int burst_limit;
+
+  if (tr.full_bl32)
+    burst_limit = 32;
+  else if ((tr.bl == BC8_OTF) && (tr.ca5 == 1'b0))
+    burst_limit = 8;
+  else
+    burst_limit = 16;
+
+    `uvm_info("MON_BURST_MODE", $sformatf("WRITE BL=%s CA5=%0d BURST_LIMIT=%0d",
+            tr.bl.name(),
+            tr.ca5,
+            burst_limit),
+            UVM_LOW)
  
   case (tr.wr_preamble)
  
@@ -1012,29 +1162,50 @@ task sample_write_data(ddr5_seq_item tr);
  
   preamble_samples = 2 * preamble_tck;
  
-  case (tr.wr_preamble)
- 
-    WR_PRE_2TCK:
+  if (tr.full_bl32) begin
 
-      preamble_wait_cycles = `TCWL - 2;
- 
-    WR_PRE_3TCK:
+   case(tr.wr_preamble)
 
-      preamble_wait_cycles = `TCWL - 3;
- 
-    WR_PRE_4TCK:
+      WR_PRE_2TCK :
+         preamble_wait_cycles = `TCWL - 11;
 
-      preamble_wait_cycles = `TCWL - 4;
- 
-    default:
+      WR_PRE_3TCK :
+         preamble_wait_cycles = `TCWL - 12;
 
-      preamble_wait_cycles = `TCWL - 2;
+      WR_PRE_4TCK :
+         preamble_wait_cycles = `TCWL - 13;
+
+      default :
+         preamble_wait_cycles = `TCWL - 11;
+
+   endcase
+
+   dq_wait_cycles = `TCWL - 9;
+
+  end
+  else begin
+
+    case(tr.wr_preamble)
+
+      WR_PRE_2TCK :
+        preamble_wait_cycles = `TCWL - 2;
+
+      WR_PRE_3TCK :
+        preamble_wait_cycles = `TCWL - 3;
+
+      WR_PRE_4TCK :
+        preamble_wait_cycles = `TCWL - 4;
+
+      default :
+        preamble_wait_cycles = `TCWL - 2;
+
+    endcase
+
+    dq_wait_cycles = `TCWL;
+
+  end 
  
-  endcase
- 
-  dq_wait_cycles = `TCWL;
- 
-  `uvm_info("WRITE_TIMING",$sformatf("WR_PRE=%0d PRE_WAIT=%0d DQ_WAIT=%0d DATA_WIDTH=%0d",preamble_tck,preamble_wait_cycles,dq_wait_cycles,`DATA_WIDTH),UVM_LOW)
+    `uvm_info("WRITE_TIMING",$sformatf("WR_PRE=%0d PRE_WAIT=%0d DQ_WAIT=%0d DATA_WIDTH=%0d",preamble_tck,preamble_wait_cycles,dq_wait_cycles,`DATA_WIDTH),UVM_LOW)
  
   fork
  
@@ -1155,7 +1326,16 @@ task sample_write_data(ddr5_seq_item tr);
  
         `uvm_info("WRITE_DQ",$sformatf("WRITE[0] DQ=%04h DQSL_T=%0b DQSL_C=%0b DQSU_T=%0b DQSU_C=%0b DML_n=%0b DMU_n=%0b",tr.dq_burst[0],tr.dqsl_t_burst[0],tr.dqsl_c_burst[0],tr.dqsu_t_burst[0],tr.dqsu_c_burst[0],tr.dml_burst[0],tr.dmu_burst[0]),UVM_LOW)
  
-        for (int i = 1; i < 16; i++) begin
+        for (int i = 1; i < burst_limit; i++) begin
+
+          int disp_indx;
+
+          disp_indx = i;
+
+          if (tr.bc8_upper_half)
+            disp_indx = i + 8;
+          else if (tr.bl32_upper_half)
+            disp_indx = i + 16;
  
           if ((i % 2) == 1) begin
  
@@ -1175,7 +1355,7 @@ task sample_write_data(ddr5_seq_item tr);
 
             tr.dmu_burst[i] = vif.ddr5_mon_dqsl_c_cb.dmu_n;
  
-            `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] C | DQ=%04h | DQSL_T=%0b DQSL_C=%0b | DQSU_T=%0b DQSU_C=%0b | DML_n=%0b | DMU_n=%0b",i,tr.dq_burst[i],tr.dqsl_t_burst[i],tr.dqsl_c_burst[i],tr.dqsu_t_burst[i],tr.dqsu_c_burst[i],tr.dml_burst[i],tr.dmu_burst[i]),UVM_LOW)
+            `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] C | DQ=%04h | DQSL_T=%0b DQSL_C=%0b | DQSU_T=%0b DQSU_C=%0b | DML_n=%0b | DMU_n=%0b",disp_indx,tr.dq_burst[i],tr.dqsl_t_burst[i],tr.dqsl_c_burst[i],tr.dqsu_t_burst[i],tr.dqsu_c_burst[i],tr.dml_burst[i],tr.dmu_burst[i]),UVM_LOW)
  
           end
 
@@ -1197,7 +1377,7 @@ task sample_write_data(ddr5_seq_item tr);
 
             tr.dmu_burst[i] = vif.ddr5_mon_dqsl_t_cb.dmu_n;
  
-            `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] T | DQ=%04h | DQSL_T=%0b DQSL_C=%0b | DQSU_T=%0b DQSU_C=%0b | DML_n=%0b | DMU_n=%0b",i,tr.dq_burst[i],tr.dqsl_t_burst[i],tr.dqsl_c_burst[i],tr.dqsu_t_burst[i],tr.dqsu_c_burst[i],tr.dml_burst[i],tr.dmu_burst[i]),UVM_LOW)
+            `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] T | DQ=%04h | DQSL_T=%0b DQSL_C=%0b | DQSU_T=%0b DQSU_C=%0b | DML_n=%0b | DMU_n=%0b",disp_indx,tr.dq_burst[i],tr.dqsl_t_burst[i],tr.dqsl_c_burst[i],tr.dqsu_t_burst[i],tr.dqsu_c_burst[i],tr.dml_burst[i],tr.dmu_burst[i]),UVM_LOW)
  
           end
  
@@ -1229,7 +1409,16 @@ task sample_write_data(ddr5_seq_item tr);
 
         end
  
-        for (int i = 1; i < 16; i++) begin
+        for (int i = 1; i < burst_limit; i++) begin
+          
+          int disp_indx;
+
+          disp_indx = i;
+
+          if (tr.bc8_upper_half)
+            disp_indx = i + 8;
+          else if (tr.bl32_upper_half)
+            disp_indx = i + 16;
  
           if ((i % 2) == 1) begin
  
@@ -1245,13 +1434,13 @@ task sample_write_data(ddr5_seq_item tr);
 
               tr.dm_burst[i] = vif.ddr5_mon_dqs_c_cb.dm_n;
 
-              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] C | DQ=%02h | DQS_T=%0b DQS_C=%0b | DM_n=%0b",i,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i],tr.dm_burst[i]),UVM_LOW)
+              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] C | DQ=%02h | DQS_T=%0b DQS_C=%0b | DM_n=%0b",disp_indx,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i],tr.dm_burst[i]),UVM_LOW)
 
             end
 
             else begin
 
-              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] C | DQ=%01h | DQS_T=%0b DQS_C=%0b | x4",i,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i]),UVM_LOW)
+              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] C | DQ=%01h | DQS_T=%0b DQS_C=%0b | x4",disp_indx,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i]),UVM_LOW)
 
             end
  
@@ -1271,13 +1460,13 @@ task sample_write_data(ddr5_seq_item tr);
 
               tr.dm_burst[i] = vif.ddr5_mon_dqs_t_cb.dm_n;
 
-              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] T | DQ=%02h | DQS_T=%0b DQS_C=%0b | DM_n=%0b",i,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i],tr.dm_burst[i]),UVM_LOW)
+              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] T | DQ=%02h | DQS_T=%0b DQS_C=%0b | DM_n=%0b",disp_indx,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i],tr.dm_burst[i]),UVM_LOW)
 
             end
 
             else begin
 
-              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] T | DQ=%01h | DQS_T=%0b DQS_C=%0b | x4",i,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i]),UVM_LOW)
+              `uvm_info("WRITE_DQ",$sformatf("WRITE[%0d] T | DQ=%01h | DQS_T=%0b DQS_C=%0b | x4",disp_indx,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i]),UVM_LOW)
 
             end
  
@@ -1291,7 +1480,7 @@ task sample_write_data(ddr5_seq_item tr);
  
   join
  
-  `uvm_info("WRITE_DQ","ALL 16 WRITE DQ BEATS CAPTURED",UVM_LOW)
+  `uvm_info("WRITE_DQ",$sformatf("ALL %0d WRITE DQ BEATS CAPTURED", burst_limit),UVM_LOW)
  
 endtask
  
@@ -1339,6 +1528,21 @@ endtask
   int wait_cycles;
 
   bit read_response_present;
+
+  int burst_limit;
+
+  if (tr.full_bl32)
+    burst_limit = 32;
+  else if ((tr.bl == BC8_OTF) && (tr.ca5 == 1'b0))
+    burst_limit = 8;
+  else
+    burst_limit = 16;
+
+    `uvm_info("READ_BURST_DEBUG", $sformatf("BL=%s CA5=%0d BURST_LIMIT=%0d",
+          tr.bl.name(),
+          tr.ca5,
+          burst_limit),
+        UVM_LOW)
  
   get_rd_preamble_info();
  
@@ -1468,8 +1672,17 @@ endtask
  
     `uvm_info("DDR5_MON","NO READ DATA STROBE DETECTED - FILLING ALL 16 READ BEATS WITH X",UVM_LOW)
  
-    for (int i = 0; i < 16; i++) begin
- 
+    for (int i = 0; i < burst_limit; i++) begin
+      
+      int disp_indx;
+
+      disp_indx = i;
+
+      if (tr.bc8_upper_half)
+        disp_indx = i + 8;
+      else if (tr.bl32_upper_half)
+        disp_indx = i + 16;
+
       tr.dq_burst[i] = 'x;
 
       tr.dqs_t_burst[i] = 1'bx;
@@ -1490,7 +1703,7 @@ endtask
 
       tr.dm_burst[i] = 1'bx;
  
-      `uvm_info("DDR5_MON",$sformatf("READ[%0d] NO RESPONSE -> DQ=X",i),UVM_LOW)
+      `uvm_info("DDR5_MON",$sformatf("READ[%0d] NO RESPONSE -> DQ=X",disp_indx),UVM_LOW)
  
     end
  
@@ -1502,7 +1715,16 @@ endtask
  
     if (`DATA_WIDTH == 16) begin
  
-      for (int i = 0; i < 16; i++) begin
+      for (int i = 0; i < burst_limit; i++) begin
+
+        int disp_indx;
+
+        disp_indx = i;
+
+        if (tr.bc8_upper_half)
+          disp_indx = i + 8;
+        else if (tr.bl32_upper_half)
+          disp_indx = i + 16;
  
         if ((i % 2) == 0) begin
  
@@ -1544,7 +1766,7 @@ endtask
  
         end
  
-        `uvm_info("DDR5_MON_READ_DQ",$sformatf("READ[%0d] DQ=%04h DQSL_T=%b DQSL_C=%b DQSU_T=%b DQSU_C=%b DML_n=%b DMU_n=%b",i,tr.dq_burst[i],tr.dqsl_t_burst[i],tr.dqsl_c_burst[i],tr.dqsu_t_burst[i],tr.dqsu_c_burst[i],tr.dml_burst[i],tr.dmu_burst[i]),UVM_LOW)
+        `uvm_info("DDR5_MON_READ_DQ",$sformatf("READ[%0d] DQ=%04h DQSL_T=%b DQSL_C=%b DQSU_T=%b DQSU_C=%b DML_n=%b DMU_n=%b",disp_indx,tr.dq_burst[i],tr.dqsl_t_burst[i],tr.dqsl_c_burst[i],tr.dqsu_t_burst[i],tr.dqsu_c_burst[i],tr.dml_burst[i],tr.dmu_burst[i]),UVM_LOW)
  
       end
  
@@ -1552,7 +1774,16 @@ endtask
 
     else begin
  
-      for (int i = 0; i < 16; i++) begin
+      for (int i = 0; i < burst_limit; i++) begin
+
+        int disp_indx;
+
+        disp_indx = i;
+
+        if (tr.bc8_upper_half)
+          disp_indx = i + 8;
+        else if (tr.bl32_upper_half)
+          disp_indx = i + 16;
  
         if ((i % 2) == 0) begin
  
@@ -1586,7 +1817,7 @@ endtask
  
         end
  
-        `uvm_info("DDR5_MON_READ_DQ",$sformatf("READ[%0d] DQ=%0h DQS_T=%b DQS_C=%b",i,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i]),UVM_LOW)
+        `uvm_info("DDR5_MON_READ_DQ",$sformatf("READ[%0d] DQ=%0h DQS_T=%b DQS_C=%b",disp_indx,tr.dq_burst[i],tr.dqs_t_burst[i],tr.dqs_c_burst[i]),UVM_LOW)
  
       end
  
@@ -1602,3 +1833,4 @@ endclass : ddr5_monitor
  
  
  
+

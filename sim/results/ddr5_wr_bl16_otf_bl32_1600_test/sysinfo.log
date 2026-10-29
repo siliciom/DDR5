@@ -1,0 +1,18 @@
+CPU Arch: x86_64
+Product Name: Ubuntu 26.04 LTS
+Kernel Type: linux
+Kernel Version: 7.0.0-22-generic
+Host Name: siliciom
+CPU Info: model name	: AMD EPYC-Milan Processor
+
+GPU Info: N/A
+GPU RAM: N/A
+Starting RAM Info: 
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       3.8Gi       987Mi       267Mi        11Gi        11Gi
+Swap:             0B          0B          0B
+
+Ending RAM Info: 
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       3.8Gi       1.0Gi       267Mi        11Gi        11Gi
+Swap:             0B          0B          0B

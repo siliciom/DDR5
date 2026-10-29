@@ -99,6 +99,17 @@ if {$testname == "ddr5_test"} {
 } elseif {$testname == "ddr5_wr_rd_test_x8"} {
  
     set comp_opts "+define+DDR_X8"
+
+} elseif {$testname == "ddr5_wr_bl16_otf_bc8_1600_test"} {
+
+    set comp_opts "+define+DDR_X16"
+
+} elseif {$testname == "ddr5_wr_bl16_otf_bl32_1600_test"} {
+
+    set comp_opts "+define+DDR_X4"
+
+
+
  
 
 }
@@ -137,6 +148,9 @@ set valid_tests {
      ddr5_wr_rd_test_x16
      ddr5_wr_rd_test_x8
      ddr5_wr_rd_test_x4
+
+     ddr5_wr_bl16_otf_bc8_1600_test
+     ddr5_wr_bl16_otf_bl32_1600_test
 
 
 

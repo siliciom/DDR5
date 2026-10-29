@@ -232,9 +232,9 @@ int faw_test;
 
 realtime command_time;
  
-logic dqs_t_burst [0:15];
+logic dqs_t_burst [0:31];
 
-logic dqs_c_burst [0:15];
+logic dqs_c_burst [0:31];
  
  
 //DQSL and DQSU for x16 
@@ -256,8 +256,18 @@ logic dqsu_t_burst [0:15];
 
 logic dqsu_c_burst [0:15];
  
-rand logic [`DATA_WIDTH-1:0] dq_burst[16];
- 
+rand logic [`DATA_WIDTH-1:0] dq_burst[32];
+
+rand bit ca5;
+
+bit bl32_second_write;
+
+bit full_bl32;
+
+bit bc8_upper_half;
+
+bit bl32_upper_half; 
+
 //data mask for x16
 
 rand bit dml_burst[16];
@@ -271,6 +281,20 @@ rand bit dm_burst[16];
    constraint c1 {soft reset_n == 1'b1;}
   // constraint c1 {soft foreach (dm_burst[i])
  //dm_burst[i] == 1'b1;}
+ bit dm_testcase;
+
+   constraint c5 {soft reset_n == 1'b1;}
+
+   constraint c2 {
+
+  if (!dm_testcase)
+
+    foreach (dm_burst[i])
+
+      dm_burst[i] == 1'b1;
+
+}
+ 
  
   function new(string name ="ddr5_seq_item");
 

@@ -13,6 +13,11 @@
   `include  "ddr5_mul_con_noncon_wr_rd_x8_seq.sv"
   `include  "ddr5_2act_without_pre_sb_seq_x8.sv"
   `include  "ddr5_wr_rd_without_act_seq_x8.sv"
+
+  // rani
+  `include "ddr5_wr_bl16_otf_bc8_1600_seq.sv"
+  `include "ddr5_wr_bl16_otf_bl32_1600_seq.sv"
+
      // jyotis
   `include  "ddr5_tFAW_4bank_1600_seq.sv"
   `include  "ddr5_tFAW_bank_1600_seq.sv"

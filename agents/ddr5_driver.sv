@@ -1365,15 +1365,38 @@ task drive_write_data(ddr5_seq_item wr_seq, input bit [1:0] wr_pre,input bit wr_
  
     begin : DQ_THREAD
 
+      bit bc8_upper_half;
+      bit bl32_upper_half;
+      int disp_indx;
+      int burst_limit;
+
       repeat (`TCWL-2) @(vif.ddr5_drv_cb_t);
 
-      for (int i=0; i<16; i++) begin
+      bc8_upper_half  = (wr_seq.bl == BC8_OTF) && (wr_seq.col[3]);
+
+      bl32_upper_half = (wr_seq.bl == BL32_OTF) &&
+                        (wr_seq.ca5) &&
+                        (wr_seq.col[10]);
+
+      if ((wr_seq.bl == BC8_OTF) && (wr_seq.ca5 == 1'b0))
+        burst_limit = 8;
+      else
+        burst_limit = 16;
+
+      for (int i=0; i<burst_limit; i++) begin
 
         if ((i % 2) == 0) begin
 
           @(vif.ddr5_dq_drv_cb_t);
 
-          vif.ddr5_dq_drv_cb_t.dq <= wr_seq.dq_burst[i];
+          if (bc8_upper_half)            
+            vif.ddr5_dq_drv_cb_t.dq <= wr_seq.dq_burst[i+8];
+
+          else if (bl32_upper_half)
+            vif.ddr5_dq_drv_cb_t.dq <= wr_seq.dq_burst[i+16];
+
+          else
+            vif.ddr5_dq_drv_cb_t.dq <= wr_seq.dq_burst[i];
 
           if (`DATA_WIDTH == 16) begin
 
@@ -1391,7 +1414,14 @@ task drive_write_data(ddr5_seq_item wr_seq, input bit [1:0] wr_pre,input bit wr_
 
           @(vif.ddr5_dq_drv_cb_c);
 
-          vif.ddr5_dq_drv_cb_c.dq <= wr_seq.dq_burst[i];
+          if (bc8_upper_half)
+            vif.ddr5_dq_drv_cb_c.dq <= wr_seq.dq_burst[i+8];
+
+          else if (bl32_upper_half)
+            vif.ddr5_dq_drv_cb_c.dq <= wr_seq.dq_burst[i+16];
+
+          else
+            vif.ddr5_dq_drv_cb_c.dq <= wr_seq.dq_burst[i];
 
           if (`DATA_WIDTH == 16) begin
 
@@ -1406,6 +1436,21 @@ task drive_write_data(ddr5_seq_item wr_seq, input bit [1:0] wr_pre,input bit wr_
           end
 
         end
+
+        disp_indx = i;
+
+        if (bc8_upper_half)
+          disp_indx = i + 8;
+        else if (bl32_upper_half)
+          disp_indx = i + 16;
+
+        `uvm_info("DRV_DQ",
+          $sformatf("DRV_DQ[%0d] = %0h",
+            disp_indx,
+            bc8_upper_half  ? wr_seq.dq_burst[i+8]  :
+            bl32_upper_half ? wr_seq.dq_burst[i+16] :
+                              wr_seq.dq_burst[i]),
+           UVM_LOW)
 
       end
  
@@ -1427,12 +1472,19 @@ task drive_write_data(ddr5_seq_item wr_seq, input bit [1:0] wr_pre,input bit wr_
 
     end
  
-    begin : DQS_THREAD
+   begin : DQS_THREAD
+
+      int burst_limit;
+
+      if ((wr_seq.bl == BC8_OTF) && (wr_seq.ca5 == 1'b0))
+        burst_limit = 8;
+      else
+        burst_limit = 16;
 
       repeat (`TCWL-1) @(vif.ddr5_drv_cb_t);
 
-      for (int i=0; i<16; i++) begin
-
+      for (int i=0; i<burst_limit; i++) begin
+        
         if ((i % 2) == 0) begin
 
           @(vif.ddr5_wr_drv_cb_t);
@@ -1502,7 +1554,142 @@ task drive_write_data(ddr5_seq_item wr_seq, input bit [1:0] wr_pre,input bit wr_
   write_link_by_id.delete(my_write_id);
 
 endtask
- 
+
+// WRITE DATA BL32
+
+task drive_write_data_bl32(ddr5_seq_item wr_seq, input bit [1:0] wr_pre, input bit wr_post);
+
+  fork
+
+  //--------------------------------------------------
+  // PREAMBLE
+  //--------------------------------------------------
+   begin : PREAMBLE_THREAD
+
+    case(wr_pre)
+
+      WR_PRE_2TCK: begin
+        repeat(`TCWL-12)
+          @(vif.ddr5_drv_cb_t);
+
+        drive_1ck_zero();
+        drive_1ck_onezero();
+      end
+
+      WR_PRE_3TCK: begin
+        repeat(`TCWL-13)
+          @(vif.ddr5_drv_cb_t);
+
+        repeat(2)
+          drive_1ck_zero();
+
+        drive_1ck_onezero();
+      end
+
+      WR_PRE_4TCK: begin
+        repeat(`TCWL-14)
+          @(vif.ddr5_drv_cb_t);
+
+        repeat(2)
+          drive_1ck_zero();
+
+        repeat(2)
+          drive_1ck_onezero();
+      end
+
+      default: begin
+        repeat(`TCWL-12)
+          @(vif.ddr5_drv_cb_t);
+
+        drive_1ck_zero();
+        drive_1ck_onezero();
+      end
+
+    endcase
+
+  end
+
+  //--------------------------------------------------
+  // DQ
+  //--------------------------------------------------
+  begin : DQ_THREAD
+
+    repeat(`TCWL-11)
+      @(vif.ddr5_drv_cb_t);
+
+    for(int i=0;i<32;i++) begin
+
+      if((i%2)==0) begin
+
+        @(vif.ddr5_dq_drv_cb_t);
+
+        vif.ddr5_dq_drv_cb_t.dq <= wr_seq.dq_burst[i];
+
+        `uvm_info("BL32_DRV_DQ", $sformatf("DQ[%0d]=%0d", i, wr_seq.dq_burst[i]), UVM_LOW)
+
+      end
+      else begin
+
+        @(vif.ddr5_dq_drv_cb_c);
+
+        vif.ddr5_dq_drv_cb_c.dq <= wr_seq.dq_burst[i];
+
+        `uvm_info("BL32_DRV_DQ", $sformatf("DQ[%0d]=%0d", i, wr_seq.dq_burst[i]), UVM_LOW)
+
+      end
+
+      `uvm_info("BL32_DATA",
+        $sformatf("DQ[%0d]=%0d",
+                  i,
+                  wr_seq.dq_burst[i]),
+        UVM_LOW)
+
+    end
+
+    @(vif.ddr5_dq_drv_cb_t);
+
+    vif.ddr5_dq_drv_cb_t.dq <= 'z;
+    vif.ddr5_dq_drv_cb_c.dq <= 'z;
+
+  end
+
+  //--------------------------------------------------
+  // DQS
+  //--------------------------------------------------
+  begin : DQS_THREAD
+
+    repeat(`TCWL-10)
+      @(vif.ddr5_drv_cb_t);
+
+    for(int i=0;i<32;i++) begin
+
+      if((i%2)==0) begin
+
+        @(vif.ddr5_wr_drv_cb_t);
+
+        vif.ddr5_wr_drv_cb_t.dqs_t <= 1'b1;
+        vif.ddr5_wr_drv_cb_t.dqs_c <= 1'b0;
+
+      end
+      else begin
+
+        @(vif.ddr5_wr_drv_cb_c);
+
+        vif.ddr5_wr_drv_cb_c.dqs_t <= 1'b0;
+        vif.ddr5_wr_drv_cb_c.dqs_c <= 1'b1;
+
+      end
+
+    end
+
+  end
+
+join
+
+drive_write_postamble(wr_post);
+
+endtask
+
 // COMMON WRITE
  
 task write(ddr5_seq_item seq);
@@ -1523,7 +1710,10 @@ task write(ddr5_seq_item seq);
 
   ddr5_seq_item wr_seq;
  
-  cmd_bl = (seq.bl == BC8_OTF) || (seq.bl == BL32_OTF);
+  if ((seq.bl == BC8_OTF) || (seq.bl == BL32_OTF))
+    cmd_bl = seq.ca5;
+  else
+    cmd_bl = 1'b1;
 
   ca1 = {3'b000, seq.bg, seq.ba, cmd_bl, 5'b01101};
 
@@ -1549,7 +1739,11 @@ release_ca();
  
   wr_seq = ddr5_seq_item::type_id::create($sformatf("wr_seq_%0d", write_id_counter));
 
-  for (int i=0; i<16; i++) begin
+  wr_seq.bl  = seq.bl;
+  wr_seq.ca5 = seq.ca5;
+  wr_seq.col = seq.col;
+
+  for (int i=0; i<32; i++) begin
 
     wr_seq.dq_burst[i] = seq.dq_burst[i];
 
@@ -1601,15 +1795,84 @@ fork
  
         pending_write_data--;
  
-        `uvm_info("DDR5_DRV", $sformatf( "WRITE data task completed; pending writes=%0d",  my_write_id, pending_write_data  ),UVM_LOW )
+        `uvm_info("DDR5_DRV", $sformatf( "WRITE[%0d] completed; pending=%0d",  my_write_id, pending_write_data),UVM_LOW )
 
     end
 
 join_none
- 
- 
+  
 endtask
- 
+
+task write_bl32(ddr5_seq_item seq);
+
+  bit [13:0] ca1, ca2;
+
+  ca1 = {3'b000, seq.bg, seq.ba, 1'b0, 5'b01101};
+
+  if (`DATA_WIDTH == 4)
+    ca2 = {3'b000, 1'b1, 1'b0, seq.col[10:3], 1'b0};
+  else
+    ca2 = {3'b000, 1'b1, 1'b0, 1'b0, seq.col[9:3], 1'b0};
+
+  check_timing_before_cmd(seq.cmd, seq.bg, seq.ba);
+
+  drive_cmd(1'b0, ca1);
+
+  record_timing_after_cmd(seq.cmd, seq.bg, seq.ba);
+
+  drive_cmd(1'b1, ca2);
+
+  release_ca();
+
+  //----------------------------------
+  // FIRST BL32 WRITE
+  //----------------------------------
+
+  if(seq.bl32_second_write == 1'b0) begin
+
+      repeat(`BL32_OTF_CMD - 3)
+         @(vif.ddr5_drv_cb_t);
+
+  end
+
+  //----------------------------------
+  // SECOND BL32 WRITE
+  //----------------------------------
+
+  else begin
+
+      drive_write_data_bl32(
+         seq,
+         current_wr_preamble,
+         current_wr_postamble);
+
+  end
+
+endtask
+
+task write_bl32_otf(ddr5_seq_item seq);
+
+  //--------------------------------
+  // CA5=0 => BL32
+  //--------------------------------
+
+  if(seq.ca5 == 1'b0) begin
+
+      write_bl32(seq);
+
+  end
+
+  //--------------------------------
+  // CA5=1 => BL16
+  //--------------------------------
+
+  else begin
+
+      write(seq);
+
+  end
+
+endtask 
  
 // COMMON READ COMMAND
  
@@ -1621,7 +1884,10 @@ bit [13:0] ca2;
 
 bit cmd_bl;
  
-cmd_bl = (seq.bl == BC8_OTF) || (seq.bl == BL32_OTF);
+if ((seq.bl == BC8_OTF) || (seq.bl == BL32_OTF))
+  cmd_bl = seq.ca5;
+else
+  cmd_bl = 1'b1;
  
 ca1 = {3'b000, seq.bg, seq.ba, cmd_bl, 5'b11101};
  
@@ -1908,8 +2174,16 @@ end
     end
  
     WRITE, WRITE_AP: begin
+      
+      case(seq.bl)
+        
+        BL32     : write_bl32(seq);
 
-      write(seq);
+        BL32_OTF : write_bl32_otf(seq);
+
+        default  : write(seq);
+      
+      endcase
 
       have_last_rw = 1'b1;
 
@@ -1980,3 +2254,4 @@ endclass
  
  
  
+

@@ -21,6 +21,10 @@ package ddr5_test_pkg;
     `include  "ddr5_conseq_tccd4_test.sv"
     `include  "ddr5_conseq_tccd5_test.sv"
 
+    // rani
+    `include "ddr5_wr_bl16_otf_bc8_1600_test.sv"
+    `include "ddr5_wr_bl16_otf_bl32_1600_test.sv"
+
 
 
 

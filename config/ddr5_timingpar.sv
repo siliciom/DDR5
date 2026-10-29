@@ -47,5 +47,7 @@
 `define TRTP 12 //Internal READ to PRECHARGE Delay
 `define TPPD 2 // PRECHARGE to PRECHARGE Delay//ACTIVE bankA to ACTIVE bankB command (same BG)
 
+`define BL32_OTF_CMD 8
+
 
 

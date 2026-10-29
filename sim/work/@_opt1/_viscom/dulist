@@ -1,0 +1,11 @@
+2 7 uvm_pkg 4 fast 48 /opt/Siemens/questaone/2026.2/questasim/uvm-1.1d 1 0 26640384 0 136476 0
+2 14 questa_uvm_pkg 4 fast 48 /opt/Siemens/questaone/2026.2/questasim/uvm-1.1d 1 0 1480704 26640384 7313 0
+1 12 ddr5_seq_pkg 4 fast 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 6769664 26640384 16566 0
+1 16 ddr5_top_sv_unit 4 fast 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 131072 29819904 0 0
+1 14 ddr5_agent_pkg 4 fast 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 3103744 29819904 10032 0
+1 12 ddr5_env_pkg 4 fast 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 734208 31556608 3655 0
+1 13 ddr5_test_pkg 4 fast 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 1940480 32211968 3156 0
+1 8 ddr5_pkg 4 fast 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 0 32998400 0 0
+1 14 ddr5_interface 5 synth 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 0 29950976 0 0
+1 14 ddr5_interface 7 fast__2 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 262144 29950976 1411 0
+1 8 ddr5_top 4 fast 38 /home/rani_b/ddr5/DDR5_conseq/sim/work 1 0 0 33129472 67 0

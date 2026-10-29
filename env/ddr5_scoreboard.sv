@@ -406,6 +406,29 @@ endfunction
     bit expected_wr_pattern[0:7];
 
     int wr_preamble_len;
+
+    int burst_limit;
+
+    case (seq.bl)
+
+      BL16     : burst_limit = 16;
+
+      BC8_OTF  : burst_limit = (seq.ca5 == 1'b0) ? 8 : 16;
+
+      BL32     : burst_limit = 32;
+
+      BL32_OTF : burst_limit = (seq.ca5 == 1'b0) ? 32 : 16;
+
+      default  : burst_limit = 16;
+
+    endcase
+
+    `uvm_info("SB_BURST",
+      $sformatf("BL=%s CA5=%0b BURST_LIMIT=%0d",
+            seq.bl.name(),
+            seq.ca5,
+            burst_limit),
+      UVM_LOW)
  
  
     if (!bank_active[seq.bg][seq.ba]) begin
@@ -544,7 +567,7 @@ wr_dqs_valid = 1'b1;
  
 if (wr_preamble_valid) begin
 
-    for (int i = 0; i < 16; i++) begin
+    for (int i = 0; i < burst_limit; i++) begin
 
         if (`DATA_WIDTH == 16) begin
 
@@ -655,17 +678,32 @@ else begin
 end   
 
     if (wr_preamble_valid && wr_dqs_valid) begin
- 
-        for (int i = 0; i < 16; i++) begin
- 
-            col_addr = seq.col + i;
- 
-            dm_check(seq,row,col_addr,i);
- 
-        end
- 
-    end
 
+    for (int i = 0; i < burst_limit; i++) begin
+
+        int disp_indx;
+
+        col_addr = seq.col + i;
+
+        disp_indx = i;
+
+        if (seq.bc8_upper_half)
+          disp_indx = i + 8;
+        else if (seq.bl32_upper_half)
+          disp_indx = i + 16;
+
+        dm_check(seq,row,col_addr,i);
+
+          `uvm_info("SB_COL",
+            $sformatf("BEAT=%0d COL=%0d DQ=%0h",
+                    disp_indx,
+                    col_addr,
+                    seq.dq_burst[i]),
+            UVM_LOW)
+
+        end
+
+    end
     else begin
  
         `uvm_error("DDR5_SB", $sformatf("%s DATA NOT STORED - INVALID PREAMBLE BG=%0d BA=%0d ROW=%0d COL=%0d", cmd_name, seq.bg, seq.ba, row, seq.col))
@@ -734,6 +772,32 @@ function automatic bit read_common(
     bit expected_rd_pattern[0:7];
 
     int rd_preamble_len;
+
+    int burst_limit;
+
+    case(seq.bl)
+
+      BL16     : burst_limit = 16;
+
+      BC8_OTF  : burst_limit = (seq.ca5 == 1'b0) ? 8 : 16;
+
+      BL32     : burst_limit = 32;
+
+      BL32_OTF : burst_limit = (seq.ca5 == 1'b0) ? 32 : 16;
+
+      default  : burst_limit = 16;
+
+    endcase
+
+    `uvm_info("SB_READ_BURST",
+      $sformatf("BL=%s CA5=%0b COL=%0d BC8_UPPER=%0b BL32_UPPER=%0b BURST_LIMIT=%0d",
+            seq.bl.name(),
+            seq.ca5,
+            seq.col,
+            seq.bc8_upper_half,
+            seq.bl32_upper_half,
+            burst_limit),
+      UVM_LOW)
  
  
     if (!bank_active[seq.bg][seq.ba]) begin
@@ -844,7 +908,7 @@ rd_dqs_valid = 1'b1;
  
 if (rd_preamble_valid) begin
 
-    for (int i = 0; i < 16; i++) begin
+    for (int i = 0; i < burst_limit; i++) begin
 
         if (`DATA_WIDTH == 16) begin
 
@@ -946,16 +1010,27 @@ end
  
     if (rd_preamble_valid && rd_dqs_valid) begin
  
-        for (int i = 0; i < 16; i++) begin
+        for (int i = 0; i < burst_limit; i++) begin
+          
+          int disp_indx;
  
-            col_addr = seq.col + i;
+          col_addr = seq.col + i;
+
+          disp_indx = i;
+
+          if (seq.bc8_upper_half)
+            disp_indx = i + 8;
+          else if (seq.bl32_upper_half)
+            disp_indx = i + 16;
+
+            `uvm_info("SB_COL", $sformatf("READ BEAT=%0d COL=%0d DQ=%0d", disp_indx, col_addr, seq.dq_burst[i]), UVM_LOW)
  
  
             if (mem[seq.bg][seq.ba][row].exists(col_addr)) begin
  
                 expected = mem[seq.bg][seq.ba][row][col_addr];
  
-                compare(seq.bg,seq.ba,row,col_addr,i,seq.dq_burst[i],expected);
+                compare(seq.bg,seq.ba,row,col_addr,disp_indx,seq.dq_burst[i],expected);
  
             end
 
@@ -1259,3 +1334,4 @@ endclass : ddr5_scoreboard
  
  
  
+
