@@ -34,6 +34,7 @@ module ddr5_command_decoder (
       4'b1100, 4'b1101, 4'b1110, 4'b1111: begin end
     endcase
 
+
     cmd = CMD_UNKNOWN;
     valid = 1'b0;
     bg = '0;
@@ -54,20 +55,29 @@ module ddr5_command_decoder (
       valid = 1'b1;
     end else if (!ca1[1]) begin
 
-      case (class_code)
-        5'b00000: begin
-
-          cmd = CMD_ACT;
-          valid = !cs2;
-          row[3:0]  = ca1[5:2];
-          row[15:4] = ca2[11:0];
-          ba        = ca1[7:6];
-          bg        = ca1[10:8];
-        end
+      // ACT is uniquely identified by CA[1:0]=2'b00.
+      // CA[4:2] carry row address bits R[2:0] for ACT, NOT opcode — so they
+      // must not be included in the case selector.  All other 2-cycle commands
+      // have CA[0]=1, so checking !ca1[0] cleanly separates ACT from the rest.
+      if (!ca1[0]) begin
+        // ACTIVATE — JEDEC JESD79-5B Table 241
+        // UI1: CA[5:2]=R[3:0], CA[7:6]=BA[1:0], CA[10:8]=BG[2:0], CA[13:11]=R[6:4]
+        // UI2: CA[8:0]=R[15:7]
+        cmd       = CMD_ACT;
+        valid     = !cs2;
+        row[3:0]  = ca1[5:2];
+        row[6:4]  = ca1[13:11];
+        row[15:7] = ca2[8:0];
+        ba        = ca1[7:6];
+        bg        = ca1[10:8];
+      end else begin
+        // All remaining 2-cycle commands have CA[0]=1; CA[4:2] are opcode bits.
+        case (class_code)
         5'b01001: begin
 
           ba  = ca1[7:6];
           bg  = ca1[10:8];
+          col[2]   = ca2[0];
           col[9:3] = ca2[7:1];
           auto_precharge = !ca2[10];
           cmd = auto_precharge ? CMD_WRPA : CMD_WRP;
@@ -90,6 +100,7 @@ module ddr5_command_decoder (
 
           ba  = ca1[7:6];
           bg  = ca1[10:8];
+          col[2]         = ca2[0];
           col[9:3]       = ca2[7:1];
           auto_precharge = !ca2[10];
           partial_write  = !ca2[11];
@@ -108,6 +119,7 @@ module ddr5_command_decoder (
         end
         default: begin end
       endcase
+      end // !ca1[0] else
     end else begin
 
       case (class_code)
@@ -155,6 +167,7 @@ module ddr5_command_decoder (
           valid = 1'b1;
         end
         5'b01111: begin
+
 
           cmd    = CMD_MPC;
           valid  = 1'b1;
